@@ -25,7 +25,6 @@
 | GET | /api/recipes/{id} | 必要 | 詳細取得 |
 | PUT | /api/recipes/{id} | 必要 | 更新 |
 | DELETE | /api/recipes/{id} | 必要 | 削除 |
-| GET | /api/recipes/{id}/er | 必要 | SQLパース結果取得（テーブル名・JOINキー） |
 
 ### コメント
 
@@ -65,18 +64,15 @@
 
 ## ER図パースの仕様
 
-`GET /api/recipes/{id}/er` のレスポンス形式:
+- `GET /api/recipes/{id}` で取得した `sql_text` をフロントエンドで `node-sql-parser` に渡してパース
+- バックエンドにER図専用エンドポイントは不要
+- パース結果のフォーマット（フロント内部）:
 
-```json
+```typescript
 {
-  "tables": ["sales", "customers", "regions"],
-  "joins": [
-    { "from_table": "sales", "to_table": "customers", "on": "sales.cust_id = customers.id" },
-    { "from_table": "sales", "to_table": "regions",   "on": "sales.region_id = regions.id" }
-  ]
+  tables: string[],
+  joins: { from_table: string; to_table: string; on: string }[]
 }
 ```
 
-- SQLパースは `node-sql-parser` をフロントエンドで実行
-- このエンドポイントはSQLテキストを返すのみ（パース自体はフロント側）
-- パース失敗時はエラーを表示、補正機能なし
+- パース失敗時はエラーメッセージを表示、補正機能なし
