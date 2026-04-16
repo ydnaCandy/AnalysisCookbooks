@@ -73,7 +73,11 @@ def update_comment(
     comment.updated_at = datetime.utcnow()
     session.add(comment)
     session.commit()
-    session.refresh(comment)
+    comment = session.exec(
+        select(RecipeComment)
+        .where(RecipeComment.id == comment_id)
+        .options(selectinload(RecipeComment.user))
+    ).first()
     return comment
 
 
