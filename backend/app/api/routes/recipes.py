@@ -2,6 +2,7 @@ from typing import List, Optional
 from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlmodel import Session, select
+from sqlalchemy.orm import selectinload
 
 from app.api.deps import get_current_user
 from app.db.session import get_session
@@ -43,15 +44,16 @@ def list_recipes(
     session: Session = Depends(get_session),
     _: User = Depends(get_current_user),
 ):
-    query = select(Recipe)
+    query = select(Recipe).options(
+        selectinload(Recipe.domain),
+        selectinload(Recipe.tags),
+        selectinload(Recipe.created_by_user),
+    )
     if domain_id:
         query = query.where(Recipe.domain_id == domain_id)
     if tag_id:
         query = query.join(RecipeTag).where(RecipeTag.tag_id == tag_id)
     recipes = session.exec(query.order_by(Recipe.updated_at.desc())).all()
-    # Relationships をロード
-    for recipe in recipes:
-        session.refresh(recipe)
     return recipes
 
 
@@ -73,7 +75,16 @@ def create_recipe(
     session.refresh(recipe)
     _sync_tags(recipe, body.tag_ids, session)
     session.commit()
-    session.refresh(recipe)
+    # リレーションシップを一括ロードして返却
+    recipe = session.exec(
+        select(Recipe)
+        .where(Recipe.id == recipe.id)
+        .options(
+            selectinload(Recipe.domain),
+            selectinload(Recipe.tags),
+            selectinload(Recipe.created_by_user),
+        )
+    ).first()
     return recipe
 
 
@@ -83,8 +94,17 @@ def get_recipe(
     session: Session = Depends(get_session),
     _: User = Depends(get_current_user),
 ):
-    recipe = _get_recipe_or_404(recipe_id, session)
-    session.refresh(recipe)
+    recipe = session.exec(
+        select(Recipe)
+        .where(Recipe.id == recipe_id)
+        .options(
+            selectinload(Recipe.domain),
+            selectinload(Recipe.tags),
+            selectinload(Recipe.created_by_user),
+        )
+    ).first()
+    if not recipe:
+        raise HTTPException(status_code=404, detail="レシピが見つかりません")
     return recipe
 
 
@@ -106,7 +126,16 @@ def update_recipe(
     if tag_ids is not None:
         _sync_tags(recipe, tag_ids, session)
         session.commit()
-    session.refresh(recipe)
+    # リレーションシップを一括ロードして返却
+    recipe = session.exec(
+        select(Recipe)
+        .where(Recipe.id == recipe_id)
+        .options(
+            selectinload(Recipe.domain),
+            selectinload(Recipe.tags),
+            selectinload(Recipe.created_by_user),
+        )
+    ).first()
     return recipe
 
 
