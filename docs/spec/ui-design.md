@@ -95,6 +95,18 @@ Press Start 2P はピクセルフォントのため、同じpxサイズでも通
 | 入力フォーム | monospace | 15〜16px |
 | 本文・説明 | monospace | 13〜15px |
 
+## テーマ切り替え
+
+3種類のテーマを切り替えられる。選択はlocalStorageに保存（キー: `theme`）。
+
+| テーマ名 | フォント | 雰囲気 |
+|---------|---------|--------|
+| Retro（デフォルト） | Press Start 2P | ピクセルアート・RPG |
+| Modern | Noto Sans JP | クリーン・ミニマル |
+| Italian | Playfair Display + Noto Sans JP | 高級感・イタリアンレストラン |
+
+切り替えUIはサイドバー最下部に配置。詳細は `docs/superpowers/specs/2026-04-17-theme-switcher-design.md` を参照。
+
 ## 使用ライブラリ
 
 | 用途 | ライブラリ |
