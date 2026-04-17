@@ -22,9 +22,9 @@ export default function ErDiagramModal({ sqlText, onClose }: Props) {
         border: '3px solid #333',
         boxShadow: '3px 3px 0 #525252',
         fontFamily: "'Press Start 2P', monospace",
-        fontSize: 10,
+        fontSize: 14,
         color: '#333',
-        padding: '10px 16px',
+        padding: '14px 20px',
         borderRadius: 0,
       },
     }))
@@ -64,8 +64,8 @@ export default function ErDiagramModal({ sqlText, onClose }: Props) {
           left: '50%',
           transform: 'translate(-50%, -50%)',
           zIndex: 201,
-          width: '80vw',
-          height: '70vh',
+          width: '95vw',
+          height: '90vh',
           background: '#ECECEC',
           border: '3px solid #333',
           boxShadow: '6px 6px 0 #525252',
@@ -81,8 +81,8 @@ export default function ErDiagramModal({ sqlText, onClose }: Props) {
             background: '#333',
             color: '#f9ca24',
             fontFamily: "'Press Start 2P', monospace",
-            fontSize: 9,
-            padding: '7px 12px',
+            fontSize: 14,
+            padding: '12px 16px',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -103,7 +103,7 @@ export default function ErDiagramModal({ sqlText, onClose }: Props) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 fontFamily: "'Press Start 2P', monospace",
-                fontSize: 10,
+                fontSize: 14,
                 color: '#d63031',
               }}
             >
@@ -117,7 +117,7 @@ export default function ErDiagramModal({ sqlText, onClose }: Props) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 fontFamily: "'Press Start 2P', monospace",
-                fontSize: 10,
+                fontSize: 14,
                 color: '#A0A0A0',
               }}
             >

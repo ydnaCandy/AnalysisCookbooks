@@ -28,6 +28,8 @@ export default function RecipeCard({ recipe, onClick }: RecipeCardProps) {
         cursor: 'pointer',
         overflow: 'hidden',
         transition: 'transform 0.05s, box-shadow 0.05s',
+        display: 'flex',
+        flexDirection: 'column',
       }}
       onMouseEnter={(e) => {
         ;(e.currentTarget as HTMLDivElement).style.transform = 'translate(-2px, -2px)'
@@ -51,7 +53,7 @@ export default function RecipeCard({ recipe, onClick }: RecipeCardProps) {
         <span
           style={{
             fontFamily: "'Press Start 2P', monospace",
-            fontSize: 9,
+            fontSize: 18,
             color: '#fff',
             letterSpacing: 1,
           }}
@@ -62,8 +64,8 @@ export default function RecipeCard({ recipe, onClick }: RecipeCardProps) {
           <span
             style={{
               fontFamily: "'Press Start 2P', monospace",
-              fontSize: 7,
-              padding: '2px 6px',
+              fontSize: 11,
+              padding: '3px 7px',
               background: domainColor.bg,
               color: domainColor.text,
               border: `1px solid ${domainColor.border}`,
@@ -75,12 +77,12 @@ export default function RecipeCard({ recipe, onClick }: RecipeCardProps) {
       </div>
 
       {/* カードボディ */}
-      <div style={{ padding: '7px 8px', display: 'flex', flexDirection: 'column', gap: 5 }}>
+      <div style={{ padding: '7px 8px', display: 'flex', flexDirection: 'column', gap: 5, flex: 1 }}>
         {recipe.description && (
           <div
             style={{
               fontFamily: 'monospace',
-              fontSize: 10,
+              fontSize: 15,
               color: '#525252',
               lineHeight: 1.5,
               display: '-webkit-box',
@@ -99,8 +101,8 @@ export default function RecipeCard({ recipe, onClick }: RecipeCardProps) {
               key={tag.id}
               style={{
                 fontFamily: "'Press Start 2P', monospace",
-                fontSize: 7,
-                padding: '2px 5px',
+                fontSize: 11,
+                padding: '3px 7px',
                 background: TAG_COLORS[i % TAG_COLORS.length],
                 color: i === 3 ? '#333' : '#fff',
                 border: '2px solid #333',
@@ -117,16 +119,18 @@ export default function RecipeCard({ recipe, onClick }: RecipeCardProps) {
         style={{
           background: '#C0C0C0',
           borderTop: '2px solid #A0A0A0',
-          padding: '3px 8px',
+          padding: '4px 8px',
           fontFamily: "'Press Start 2P', monospace",
-          fontSize: 7,
+          fontSize: 11,
           color: '#666',
           display: 'flex',
           justifyContent: 'space-between',
         }}
       >
-        <span>by {recipe.created_by_user?.username ?? '?'}</span>
-        <span>{recipe.updated_at.slice(0, 10)}</span>
+        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', minWidth: 0 }}>
+          by {recipe.created_by_user?.username ?? '?'}
+        </span>
+        <span style={{ flexShrink: 0, marginLeft: 4 }}>{recipe.updated_at.slice(0, 10)}</span>
       </div>
     </div>
   )

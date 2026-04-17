@@ -15,26 +15,26 @@ const inputStyle: React.CSSProperties = {
   background: '#fff',
   border: '2px solid #333',
   boxShadow: 'inset 2px 2px 0 #A0A0A0',
-  padding: '4px 6px',
+  padding: '8px 10px',
   fontFamily: 'monospace',
-  fontSize: 11,
+  fontSize: 16,
   outline: 'none',
   width: '100%',
 }
 
 const labelStyle: React.CSSProperties = {
   fontFamily: "'Press Start 2P', monospace",
-  fontSize: 7,
+  fontSize: 12,
   color: '#525252',
-  marginBottom: 3,
+  marginBottom: 4,
   display: 'block',
 }
 
 const btnBase: React.CSSProperties = {
   border: '2px solid #333',
-  padding: '5px 10px',
+  padding: '8px 16px',
   fontFamily: "'Press Start 2P', monospace",
-  fontSize: 8,
+  fontSize: 11,
   cursor: 'pointer',
   letterSpacing: 1,
 }
@@ -112,9 +112,10 @@ export default function RecipeModal({ recipe, domains, tags, onClose }: Props) {
           left: '50%',
           transform: 'translate(-50%, -50%)',
           zIndex: 101,
-          width: '90vw',
-          maxWidth: 960,
-          maxHeight: '90vh',
+          width: '98vw',
+          height: '97vh',
+          maxWidth: '98vw',
+          maxHeight: '97vh',
           display: 'flex',
           flexDirection: 'column',
           background: '#ECECEC',
@@ -130,8 +131,8 @@ export default function RecipeModal({ recipe, domains, tags, onClose }: Props) {
             background: '#333',
             color: '#f9ca24',
             fontFamily: "'Press Start 2P', monospace",
-            fontSize: 9,
-            padding: '7px 12px',
+            fontSize: 14,
+            padding: '12px 16px',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -185,8 +186,8 @@ export default function RecipeModal({ recipe, domains, tags, onClose }: Props) {
                       onClick={() => toggleTag(tag.id)}
                       style={{
                         fontFamily: "'Press Start 2P', monospace",
-                        fontSize: 7,
-                        padding: '3px 6px',
+                        fontSize: 9,
+                        padding: '4px 8px',
                         border: '2px solid #333',
                         background: selected ? '#0984e3' : '#C0C0C0',
                         color: selected ? '#fff' : '#333',
@@ -236,47 +237,52 @@ export default function RecipeModal({ recipe, domains, tags, onClose }: Props) {
             </div>
 
             {error && (
-              <div style={{ fontFamily: 'monospace', fontSize: 11, color: '#d63031', background: '#ffe0e0', border: '1px solid #d63031', padding: '4px 8px' }}>
+              <div style={{ fontFamily: 'monospace', fontSize: 14, color: '#d63031', background: '#ffe0e0', border: '1px solid #d63031', padding: '6px 10px' }}>
                 {error}
               </div>
             )}
 
-            {/* コメント（レシピ編集時のみ） */}
-            {recipe && <CommentThread recipeId={recipe.id} />}
           </div>
 
-          {/* 右カラム: SQL */}
+          {/* 右カラム: SQL + コメント */}
           <div style={{ flex: 2, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-            <div
-              style={{
-                fontFamily: "'Press Start 2P', monospace",
-                fontSize: 7,
-                color: '#f9ca24',
-                background: '#1a1a1a',
-                padding: '4px 10px',
-                letterSpacing: 1,
-              }}
-            >
-              SQL *
+            {/* SQL エリア（独立スクロール） */}
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+              <div
+                style={{
+                  fontFamily: "'Press Start 2P', monospace",
+                  fontSize: 9,
+                  color: '#f9ca24',
+                  background: '#1a1a1a',
+                  padding: '6px 12px',
+                  letterSpacing: 1,
+                  flexShrink: 0,
+                }}
+              >
+                SQL *
+              </div>
+              <textarea
+                style={{
+                  flex: 1,
+                  background: '#1e1e1e',
+                  color: '#d4d4d4',
+                  fontFamily: 'monospace',
+                  fontSize: 15,
+                  padding: 14,
+                  border: 'none',
+                  outline: 'none',
+                  resize: 'none',
+                  lineHeight: 1.7,
+                  textAlign: 'left',
+                  overflowY: 'auto',
+                }}
+                value={sqlText}
+                onChange={(e) => setSqlText(e.target.value)}
+                spellCheck={false}
+              />
             </div>
-            <textarea
-              style={{
-                flex: 1,
-                background: '#1e1e1e',
-                color: '#d4d4d4',
-                fontFamily: 'monospace',
-                fontSize: 13,
-                padding: 12,
-                border: 'none',
-                outline: 'none',
-                resize: 'none',
-                lineHeight: 1.7,
-                textAlign: 'left',
-              }}
-              value={sqlText}
-              onChange={(e) => setSqlText(e.target.value)}
-              spellCheck={false}
-            />
+            {/* コメント（レシピ編集時のみ・独立スクロール） */}
+            {recipe && <CommentThread recipeId={recipe.id} />}
           </div>
         </div>
       </div>

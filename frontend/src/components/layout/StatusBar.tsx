@@ -10,7 +10,7 @@ export default function StatusBar({ count, filterLabel }: StatusBarProps) {
         background: '#333',
         padding: '4px 12px',
         fontFamily: "'Press Start 2P', monospace",
-        fontSize: 7,
+        fontSize: 10,
         color: '#f9ca24',
         display: 'flex',
         gap: 16,

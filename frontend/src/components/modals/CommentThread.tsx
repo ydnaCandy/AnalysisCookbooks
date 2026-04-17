@@ -45,9 +45,9 @@ export default function CommentThread({ recipeId }: Props) {
         style={{
           background: '#D8D8D8',
           border: '2px solid #A0A0A0',
-          padding: '5px 8px',
+          padding: '8px 12px',
           fontFamily: "'Press Start 2P', monospace",
-          fontSize: 7,
+          fontSize: 11,
           color: '#333',
           display: 'flex',
           justifyContent: 'space-between',
@@ -68,9 +68,13 @@ export default function CommentThread({ recipeId }: Props) {
             background: '#fff',
             border: '2px solid #C0C0C0',
             borderTop: 'none',
-            padding: '8px',
+            display: 'flex',
+            flexDirection: 'column',
+            maxHeight: 320,
           }}
         >
+          {/* コメント一覧（スクロール） */}
+          <div style={{ flex: 1, overflowY: 'auto', padding: '8px 8px 0' }}>
           {/* コメント一覧 */}
           {comments.map((comment) => {
             const isOwn = currentUser?.id === comment.user_id
@@ -89,8 +93,8 @@ export default function CommentThread({ recipeId }: Props) {
                 {/* アバター */}
                 <div
                   style={{
-                    width: 22,
-                    height: 22,
+                    width: 30,
+                    height: 30,
                     background: '#525252',
                     border: '2px solid #333',
                     flexShrink: 0,
@@ -99,7 +103,7 @@ export default function CommentThread({ recipeId }: Props) {
                     justifyContent: 'center',
                     color: '#fff',
                     fontFamily: "'Press Start 2P', monospace",
-                    fontSize: 7,
+                    fontSize: 10,
                   }}
                 >
                   {avatarInitials(comment.user?.username ?? '?')}
@@ -112,9 +116,9 @@ export default function CommentThread({ recipeId }: Props) {
                       display: 'flex',
                       justifyContent: 'space-between',
                       fontFamily: "'Press Start 2P', monospace",
-                      fontSize: 7,
+                      fontSize: 10,
                       color: '#666',
-                      marginBottom: 4,
+                      marginBottom: 6,
                     }}
                   >
                     <span>{comment.user?.username ?? '?'} &nbsp; {comment.created_at.slice(0, 10)}</span>
@@ -148,7 +152,7 @@ export default function CommentThread({ recipeId }: Props) {
                           border: '2px solid #333',
                           padding: '3px 5px',
                           fontFamily: 'monospace',
-                          fontSize: 11,
+                          fontSize: 14,
                           outline: 'none',
                         }}
                         value={editContent}
@@ -162,8 +166,8 @@ export default function CommentThread({ recipeId }: Props) {
                           color: '#fff',
                           border: '2px solid #333',
                           fontFamily: "'Press Start 2P', monospace",
-                          fontSize: 7,
-                          padding: '2px 6px',
+                          fontSize: 10,
+                          padding: '4px 8px',
                           cursor: 'pointer',
                         }}
                         onClick={() => handleUpdate(comment)}
@@ -176,8 +180,8 @@ export default function CommentThread({ recipeId }: Props) {
                           color: '#333',
                           border: '2px solid #333',
                           fontFamily: "'Press Start 2P', monospace",
-                          fontSize: 7,
-                          padding: '2px 6px',
+                          fontSize: 10,
+                          padding: '4px 8px',
                           cursor: 'pointer',
                         }}
                         onClick={() => setEditingId(null)}
@@ -186,7 +190,7 @@ export default function CommentThread({ recipeId }: Props) {
                       </button>
                     </div>
                   ) : (
-                    <div style={{ fontFamily: 'monospace', fontSize: 11, color: '#333', lineHeight: 1.5 }}>
+                    <div style={{ fontFamily: 'monospace', fontSize: 14, color: '#333', lineHeight: 1.5 }}>
                       {comment.content}
                     </div>
                   )}
@@ -194,9 +198,10 @@ export default function CommentThread({ recipeId }: Props) {
               </div>
             )
           })}
+          </div>
 
-          {/* 新規コメント入力 */}
-          <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>
+          {/* 新規コメント入力（固定） */}
+          <div style={{ display: 'flex', gap: 6, padding: '6px 8px', borderTop: '1px solid #ECECEC', background: '#fff', flexShrink: 0 }}>
             <input
               style={{
                 flex: 1,
@@ -205,7 +210,7 @@ export default function CommentThread({ recipeId }: Props) {
                 boxShadow: 'inset 1px 1px 0 #A0A0A0',
                 padding: '4px 6px',
                 fontFamily: 'monospace',
-                fontSize: 11,
+                fontSize: 14,
                 outline: 'none',
               }}
               placeholder="コメントを追加..."
@@ -220,8 +225,8 @@ export default function CommentThread({ recipeId }: Props) {
                 border: '2px solid #333',
                 boxShadow: '2px 2px 0 #333',
                 fontFamily: "'Press Start 2P', monospace",
-                fontSize: 7,
-                padding: '4px 8px',
+                fontSize: 10,
+                padding: '6px 10px',
                 cursor: 'pointer',
                 letterSpacing: 1,
               }}

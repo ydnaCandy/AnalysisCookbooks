@@ -12,9 +12,9 @@ export default function Sidebar({ domains, selectedDomainId, onSelectDomain, onO
   const { user, logout } = useAuth()
 
   const itemStyle = (active: boolean): React.CSSProperties => ({
-    padding: '7px 10px',
+    padding: '11px 14px',
     fontFamily: "'Press Start 2P', monospace",
-    fontSize: 8,
+    fontSize: 14,
     color: active ? '#f9ca24' : '#ccc',
     background: active ? '#000' : 'transparent',
     cursor: 'pointer',
@@ -34,7 +34,7 @@ export default function Sidebar({ domains, selectedDomainId, onSelectDomain, onO
   return (
     <div
       style={{
-        width: 170,
+        width: 260,
         background: '#1a1a1a',
         borderRight: '3px solid #333',
         display: 'flex',
@@ -47,9 +47,9 @@ export default function Sidebar({ domains, selectedDomainId, onSelectDomain, onO
         <div
           style={{
             fontFamily: "'Press Start 2P', monospace",
-            fontSize: 7,
+            fontSize: 12,
             color: '#525252',
-            padding: '4px 10px 6px',
+            padding: '8px 14px 10px',
             letterSpacing: 2,
           }}
         >
@@ -70,9 +70,9 @@ export default function Sidebar({ domains, selectedDomainId, onSelectDomain, onO
         <div
           style={{
             fontFamily: "'Press Start 2P', monospace",
-            fontSize: 7,
+            fontSize: 12,
             color: '#525252',
-            padding: '4px 10px 6px',
+            padding: '8px 14px 10px',
             letterSpacing: 2,
           }}
         >
@@ -103,9 +103,9 @@ export default function Sidebar({ domains, selectedDomainId, onSelectDomain, onO
       <div
         style={{
           background: '#111',
-          padding: '8px 10px',
+          padding: '12px 14px',
           fontFamily: "'Press Start 2P', monospace",
-          fontSize: 7,
+          fontSize: 12,
           color: '#aaa',
           lineHeight: 2,
           borderTop: '2px solid #444',

@@ -11,8 +11,8 @@ type Tab = 'domains' | 'tags' | 'users'
 
 const tabBtnStyle = (active: boolean): React.CSSProperties => ({
   fontFamily: "'Press Start 2P', monospace",
-  fontSize: 8,
-  padding: '6px 12px',
+  fontSize: 15,
+  padding: '10px 18px',
   border: '2px solid #333',
   background: active ? '#333' : '#C0C0C0',
   color: active ? '#f9ca24' : '#333',
@@ -23,9 +23,9 @@ const tabBtnStyle = (active: boolean): React.CSSProperties => ({
 const inputStyle: React.CSSProperties = {
   background: '#fff',
   border: '2px solid #333',
-  padding: '4px 6px',
+  padding: '7px 10px',
   fontFamily: 'monospace',
-  fontSize: 11,
+  fontSize: 15,
   outline: 'none',
 }
 
@@ -35,9 +35,10 @@ const rowBtnStyle = (color: string, shadow: string): React.CSSProperties => ({
   border: '2px solid #333',
   boxShadow: `2px 2px 0 ${shadow}`,
   fontFamily: "'Press Start 2P', monospace",
-  fontSize: 7,
-  padding: '3px 6px',
+  fontSize: 12,
+  padding: '7px 12px',
   cursor: 'pointer',
+  whiteSpace: 'nowrap',
 })
 
 export default function AdminModal({ onClose }: Props) {
@@ -75,14 +76,14 @@ export default function AdminModal({ onClose }: Props) {
       <div
         style={{
           position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-          zIndex: 101, width: 700, maxHeight: '85vh', background: '#ECECEC',
+          zIndex: 101, width: '90vw', maxWidth: 1100, height: '90vh', background: '#ECECEC',
           border: '3px solid #333', boxShadow: '6px 6px 0 #525252',
           display: 'flex', flexDirection: 'column', overflow: 'hidden',
         }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* ヘッダー */}
-        <div style={{ background: '#333', color: '#f9ca24', fontFamily: "'Press Start 2P', monospace", fontSize: 9, padding: '7px 12px', display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ background: '#333', color: '#f9ca24', fontFamily: "'Press Start 2P', monospace", fontSize: 14, padding: '12px 16px', display: 'flex', justifyContent: 'space-between' }}>
           <span>ADMIN PANEL</span>
           <span style={{ cursor: 'pointer', color: '#d63031' }} onClick={onClose}>[ X ]</span>
         </div>
@@ -97,7 +98,7 @@ export default function AdminModal({ onClose }: Props) {
         </div>
 
         {error && (
-          <div style={{ fontFamily: 'monospace', fontSize: 11, color: '#d63031', background: '#ffe0e0', border: '1px solid #d63031', padding: '4px 8px', margin: '4px 8px 0' }}>
+          <div style={{ fontFamily: 'monospace', fontSize: 14, color: '#d63031', background: '#ffe0e0', border: '1px solid #d63031', padding: '6px 10px', margin: '6px 10px 0' }}>
             {error}
           </div>
         )}
@@ -123,8 +124,8 @@ export default function AdminModal({ onClose }: Props) {
               </div>
               {domains.map((d) => (
                 <div key={d.id} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 8px', background: '#fff', border: '2px solid #C0C0C0' }}>
-                  <span style={{ fontFamily: 'monospace', fontSize: 12, flex: 1 }}>{d.name}</span>
-                  <span style={{ fontFamily: 'monospace', fontSize: 11, flex: 2, color: '#666' }}>{d.description}</span>
+                  <span style={{ fontFamily: 'monospace', fontSize: 16, flex: 1 }}>{d.name}</span>
+                  <span style={{ fontFamily: 'monospace', fontSize: 15, flex: 2, color: '#666' }}>{d.description}</span>
                   <button style={rowBtnStyle('#d63031', '#8a1010')} onClick={() => wrap(() => domainMutations.remove.mutateAsync(d.id))}>DEL</button>
                 </div>
               ))}
@@ -148,7 +149,7 @@ export default function AdminModal({ onClose }: Props) {
               </div>
               {tags.map((t) => (
                 <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 8px', background: '#fff', border: '2px solid #C0C0C0' }}>
-                  <span style={{ fontFamily: 'monospace', fontSize: 12, flex: 1 }}>{t.name}</span>
+                  <span style={{ fontFamily: 'monospace', fontSize: 16, flex: 1 }}>{t.name}</span>
                   <button style={rowBtnStyle('#d63031', '#8a1010')} onClick={() => wrap(() => tagMutations.remove.mutateAsync(t.id))}>DEL</button>
                 </div>
               ))}
@@ -161,7 +162,7 @@ export default function AdminModal({ onClose }: Props) {
               <div style={{ display: 'flex', gap: 6, alignItems: 'center', padding: 8, background: '#D8D8D8', border: '2px solid #A0A0A0', flexWrap: 'wrap' }}>
                 <input style={{ ...inputStyle, width: 140 }} placeholder="ユーザー名" value={newUsername} onChange={(e) => setNewUsername(e.target.value)} />
                 <input type="password" style={{ ...inputStyle, width: 140 }} placeholder="パスワード" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
-                <label style={{ fontFamily: 'monospace', fontSize: 11, display: 'flex', alignItems: 'center', gap: 4 }}>
+                <label style={{ fontFamily: 'monospace', fontSize: 15, display: 'flex', alignItems: 'center', gap: 4 }}>
                   <input type="checkbox" checked={newIsAdmin} onChange={(e) => setNewIsAdmin(e.target.checked)} />
                   管理者
                 </label>
@@ -179,9 +180,9 @@ export default function AdminModal({ onClose }: Props) {
               {users.map((u) => (
                 <div key={u.id} style={{ padding: '6px 8px', background: '#fff', border: '2px solid #C0C0C0', display: 'flex', flexDirection: 'column', gap: 4 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <span style={{ fontFamily: 'monospace', fontSize: 12, flex: 1 }}>{u.username}</span>
-                    {u.is_admin && <span style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 7, color: '#f9ca24', background: '#333', padding: '2px 5px' }}>ADMIN</span>}
-                    {!u.is_active && <span style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 7, color: '#d63031' }}>INACTIVE</span>}
+                    <span style={{ fontFamily: 'monospace', fontSize: 16, flex: 1 }}>{u.username}</span>
+                    {u.is_admin && <span style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 10, color: '#f9ca24', background: '#333', padding: '3px 7px' }}>ADMIN</span>}
+                    {!u.is_active && <span style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 10, color: '#d63031' }}>INACTIVE</span>}
                     <button
                       style={rowBtnStyle(u.is_active ? '#d63031' : '#2ecc71', u.is_active ? '#8a1010' : '#1a8a4a')}
                       onClick={() => wrap(() => userMutations.update.mutateAsync({ id: u.id, data: { is_active: !u.is_active } }))}

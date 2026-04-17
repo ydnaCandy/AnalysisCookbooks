@@ -18,9 +18,9 @@ const btnStyle: React.CSSProperties = {
   color: '#fff',
   border: '2px solid #333',
   boxShadow: '3px 3px 0 #1a8a4a',
-  padding: '5px 10px',
+  padding: '6px 12px',
   fontFamily: "'Press Start 2P', monospace",
-  fontSize: 8,
+  fontSize: 12,
   cursor: 'pointer',
   letterSpacing: 1,
 }
@@ -29,16 +29,16 @@ const selectStyle: React.CSSProperties = {
   background: '#ECECEC',
   border: '2px solid #333',
   boxShadow: '2px 2px 0 #525252',
-  padding: '4px 8px',
+  padding: '6px 10px',
   fontFamily: "'Press Start 2P', monospace",
-  fontSize: 8,
+  fontSize: 12,
   color: '#333',
   cursor: 'pointer',
 }
 
 const labelStyle: React.CSSProperties = {
   fontFamily: "'Press Start 2P', monospace",
-  fontSize: 7,
+  fontSize: 11,
   color: '#525252',
   letterSpacing: 1,
 }
@@ -108,7 +108,7 @@ export default function RecipeGrid({
           flex: 1,
           padding: 12,
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+          gridTemplateColumns: 'repeat(3, 1fr)',
           gap: 12,
           alignContent: 'start',
           overflowY: 'auto',
