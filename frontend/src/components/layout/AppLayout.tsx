@@ -17,7 +17,7 @@ export default function AppLayout({ sidebar, toolbar, children, statusBar }: App
           color: '#f9ca24',
           padding: '8px 16px',
           fontFamily: "'Press Start 2P', monospace",
-          fontSize: 11,
+          fontSize: 22,
           letterSpacing: 3,
           borderBottom: '3px solid #525252',
           flexShrink: 0,
