@@ -39,16 +39,16 @@ export default function CommentThread({ recipeId }: Props) {
     username.slice(0, 2).toUpperCase()
 
   return (
-    <div style={{ borderTop: '2px solid #A0A0A0', marginTop: 4, paddingTop: 6 }}>
+    <div style={{ borderTop: '2px solid var(--theme-border-soft)', marginTop: 4, paddingTop: 6 }}>
       {/* 折りたたみバー */}
       <div
         style={{
-          background: '#D8D8D8',
-          border: '2px solid #A0A0A0',
+          background: 'var(--theme-bg-base)',
+          border: '2px solid var(--theme-border-soft)',
           padding: '8px 12px',
-          fontFamily: "'Press Start 2P', monospace",
+          fontFamily: 'var(--theme-font-display)',
           fontSize: 11,
-          color: '#333',
+          color: 'var(--theme-text)',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -65,8 +65,8 @@ export default function CommentThread({ recipeId }: Props) {
       {open && (
         <div
           style={{
-            background: '#fff',
-            border: '2px solid #C0C0C0',
+            background: 'var(--theme-bg-surface)',
+            border: '2px solid var(--theme-border-soft)',
             borderTop: 'none',
             display: 'flex',
             flexDirection: 'column',
@@ -75,7 +75,6 @@ export default function CommentThread({ recipeId }: Props) {
         >
           {/* コメント一覧（スクロール） */}
           <div style={{ flex: 1, overflowY: 'auto', padding: '8px 8px 0' }}>
-          {/* コメント一覧 */}
           {comments.map((comment) => {
             const isOwn = currentUser?.id === comment.user_id
             const isAdmin = currentUser?.is_admin
@@ -87,7 +86,7 @@ export default function CommentThread({ recipeId }: Props) {
                   gap: 6,
                   paddingBottom: 8,
                   marginBottom: 8,
-                  borderBottom: '1px solid #ECECEC',
+                  borderBottom: '1px solid var(--theme-bg-sunken)',
                 }}
               >
                 {/* アバター */}
@@ -95,14 +94,14 @@ export default function CommentThread({ recipeId }: Props) {
                   style={{
                     width: 30,
                     height: 30,
-                    background: '#525252',
-                    border: '2px solid #333',
+                    background: 'var(--theme-shadow)',
+                    border: '2px solid var(--theme-border)',
                     flexShrink: 0,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     color: '#fff',
-                    fontFamily: "'Press Start 2P', monospace",
+                    fontFamily: 'var(--theme-font-display)',
                     fontSize: 10,
                   }}
                 >
@@ -115,9 +114,9 @@ export default function CommentThread({ recipeId }: Props) {
                     style={{
                       display: 'flex',
                       justifyContent: 'space-between',
-                      fontFamily: "'Press Start 2P', monospace",
+                      fontFamily: 'var(--theme-font-display)',
                       fontSize: 10,
-                      color: '#666',
+                      color: 'var(--theme-text-muted)',
                       marginBottom: 6,
                     }}
                   >
@@ -149,9 +148,9 @@ export default function CommentThread({ recipeId }: Props) {
                         style={{
                           flex: 1,
                           background: '#fff',
-                          border: '2px solid #333',
+                          border: '2px solid var(--theme-border)',
                           padding: '3px 5px',
-                          fontFamily: 'monospace',
+                          fontFamily: 'var(--theme-font)',
                           fontSize: 14,
                           outline: 'none',
                         }}
@@ -162,10 +161,10 @@ export default function CommentThread({ recipeId }: Props) {
                       />
                       <button
                         style={{
-                          background: '#525252',
+                          background: 'var(--theme-shadow)',
                           color: '#fff',
-                          border: '2px solid #333',
-                          fontFamily: "'Press Start 2P', monospace",
+                          border: '2px solid var(--theme-border)',
+                          fontFamily: 'var(--theme-font-display)',
                           fontSize: 10,
                           padding: '4px 8px',
                           cursor: 'pointer',
@@ -176,10 +175,10 @@ export default function CommentThread({ recipeId }: Props) {
                       </button>
                       <button
                         style={{
-                          background: '#A0A0A0',
-                          color: '#333',
-                          border: '2px solid #333',
-                          fontFamily: "'Press Start 2P', monospace",
+                          background: 'var(--theme-border-soft)',
+                          color: 'var(--theme-text)',
+                          border: '2px solid var(--theme-border)',
+                          fontFamily: 'var(--theme-font-display)',
                           fontSize: 10,
                           padding: '4px 8px',
                           cursor: 'pointer',
@@ -190,7 +189,7 @@ export default function CommentThread({ recipeId }: Props) {
                       </button>
                     </div>
                   ) : (
-                    <div style={{ fontFamily: 'monospace', fontSize: 14, color: '#333', lineHeight: 1.5 }}>
+                    <div style={{ fontFamily: 'var(--theme-font)', fontSize: 14, color: 'var(--theme-text)', lineHeight: 1.5 }}>
                       {comment.content}
                     </div>
                   )}
@@ -201,15 +200,15 @@ export default function CommentThread({ recipeId }: Props) {
           </div>
 
           {/* 新規コメント入力（固定） */}
-          <div style={{ display: 'flex', gap: 6, padding: '6px 8px', borderTop: '1px solid #ECECEC', background: '#fff', flexShrink: 0 }}>
+          <div style={{ display: 'flex', gap: 6, padding: '6px 8px', borderTop: '1px solid var(--theme-bg-sunken)', background: 'var(--theme-bg-surface)', flexShrink: 0 }}>
             <input
               style={{
                 flex: 1,
                 background: '#fff',
-                border: '2px solid #333',
-                boxShadow: 'inset 1px 1px 0 #A0A0A0',
+                border: '2px solid var(--theme-border)',
+                boxShadow: 'inset 1px 1px 0 var(--theme-border-soft)',
                 padding: '4px 6px',
-                fontFamily: 'monospace',
+                fontFamily: 'var(--theme-font)',
                 fontSize: 14,
                 outline: 'none',
               }}
@@ -220,11 +219,11 @@ export default function CommentThread({ recipeId }: Props) {
             />
             <button
               style={{
-                background: '#525252',
+                background: 'var(--theme-shadow)',
                 color: '#fff',
-                border: '2px solid #333',
-                boxShadow: '2px 2px 0 #333',
-                fontFamily: "'Press Start 2P', monospace",
+                border: '2px solid var(--theme-border)',
+                boxShadow: '2px 2px 0 var(--theme-border)',
+                fontFamily: 'var(--theme-font-display)',
                 fontSize: 10,
                 padding: '6px 10px',
                 cursor: 'pointer',

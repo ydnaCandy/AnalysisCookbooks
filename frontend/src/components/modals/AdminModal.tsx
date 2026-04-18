@@ -10,21 +10,21 @@ interface Props {
 type Tab = 'domains' | 'tags' | 'users'
 
 const tabBtnStyle = (active: boolean): React.CSSProperties => ({
-  fontFamily: "'Press Start 2P', monospace",
+  fontFamily: 'var(--theme-font-display)',
   fontSize: 15,
   padding: '10px 18px',
-  border: '2px solid #333',
-  background: active ? '#333' : '#C0C0C0',
-  color: active ? '#f9ca24' : '#333',
+  border: '2px solid var(--theme-border)',
+  background: active ? 'var(--theme-header-bg)' : 'var(--theme-bg-sunken)',
+  color: active ? 'var(--theme-header-text)' : 'var(--theme-text)',
   cursor: 'pointer',
   letterSpacing: 1,
 })
 
 const inputStyle: React.CSSProperties = {
   background: '#fff',
-  border: '2px solid #333',
+  border: '2px solid var(--theme-border)',
   padding: '7px 10px',
-  fontFamily: 'monospace',
+  fontFamily: 'var(--theme-font)',
   fontSize: 15,
   outline: 'none',
 }
@@ -32,9 +32,9 @@ const inputStyle: React.CSSProperties = {
 const rowBtnStyle = (color: string, shadow: string): React.CSSProperties => ({
   background: color,
   color: '#fff',
-  border: '2px solid #333',
+  border: '2px solid var(--theme-border)',
   boxShadow: `2px 2px 0 ${shadow}`,
-  fontFamily: "'Press Start 2P', monospace",
+  fontFamily: 'var(--theme-font-display)',
   fontSize: 12,
   padding: '7px 12px',
   cursor: 'pointer',
@@ -45,18 +45,15 @@ export default function AdminModal({ onClose }: Props) {
   const [tab, setTab] = useState<Tab>('domains')
   const [error, setError] = useState('')
 
-  // Domains
   const { data: domains = [] } = useDomains()
   const domainMutations = useDomainMutations()
   const [newDomainName, setNewDomainName] = useState('')
   const [newDomainDesc, setNewDomainDesc] = useState('')
 
-  // Tags
   const { data: tags = [] } = useTags()
   const tagMutations = useTagMutations()
   const [newTagName, setNewTagName] = useState('')
 
-  // Users
   const { data: users = [] } = useUsers()
   const userMutations = useUserMutations()
   const [newUsername, setNewUsername] = useState('')
@@ -76,20 +73,30 @@ export default function AdminModal({ onClose }: Props) {
       <div
         style={{
           position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-          zIndex: 101, width: '90vw', maxWidth: 1100, height: '90vh', background: '#ECECEC',
-          border: '3px solid #333', boxShadow: '6px 6px 0 #525252',
+          zIndex: 101, width: '90vw', maxWidth: 1100, height: '90vh',
+          background: 'var(--theme-bg-surface)',
+          border: '3px solid var(--theme-border)',
+          boxShadow: '6px 6px 0 var(--theme-shadow)',
           display: 'flex', flexDirection: 'column', overflow: 'hidden',
         }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* ヘッダー */}
-        <div style={{ background: '#333', color: '#f9ca24', fontFamily: "'Press Start 2P', monospace", fontSize: 14, padding: '12px 16px', display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{
+          background: 'var(--theme-header-bg)',
+          color: 'var(--theme-header-text)',
+          fontFamily: 'var(--theme-font-display)',
+          fontSize: 14,
+          padding: '12px 16px',
+          display: 'flex',
+          justifyContent: 'space-between',
+        }}>
           <span>ADMIN PANEL</span>
           <span style={{ cursor: 'pointer', color: '#d63031' }} onClick={onClose}>[ X ]</span>
         </div>
 
         {/* タブ */}
-        <div style={{ display: 'flex', gap: 0, borderBottom: '3px solid #333', background: '#C0C0C0' }}>
+        <div style={{ display: 'flex', gap: 0, borderBottom: '3px solid var(--theme-border)', background: 'var(--theme-bg-sunken)' }}>
           {(['domains', 'tags', 'users'] as Tab[]).map((t) => (
             <button key={t} style={tabBtnStyle(tab === t)} onClick={() => setTab(t)}>
               {t.toUpperCase()}
@@ -98,18 +105,16 @@ export default function AdminModal({ onClose }: Props) {
         </div>
 
         {error && (
-          <div style={{ fontFamily: 'monospace', fontSize: 14, color: '#d63031', background: '#ffe0e0', border: '1px solid #d63031', padding: '6px 10px', margin: '6px 10px 0' }}>
+          <div style={{ fontFamily: 'var(--theme-font)', fontSize: 14, color: '#d63031', background: '#ffe0e0', border: '1px solid #d63031', padding: '6px 10px', margin: '6px 10px 0' }}>
             {error}
           </div>
         )}
 
-        {/* タブコンテンツ */}
         <div style={{ flex: 1, overflowY: 'auto', padding: 12 }}>
 
-          {/* ドメイン管理 */}
           {tab === 'domains' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <div style={{ display: 'flex', gap: 6, alignItems: 'center', padding: 8, background: '#D8D8D8', border: '2px solid #A0A0A0' }}>
+              <div style={{ display: 'flex', gap: 6, alignItems: 'center', padding: 8, background: 'var(--theme-bg-base)', border: '2px solid var(--theme-border-soft)' }}>
                 <input style={{ ...inputStyle, flex: 1 }} placeholder="ドメイン名" value={newDomainName} onChange={(e) => setNewDomainName(e.target.value)} />
                 <input style={{ ...inputStyle, flex: 2 }} placeholder="説明（任意）" value={newDomainDesc} onChange={(e) => setNewDomainDesc(e.target.value)} />
                 <button
@@ -123,19 +128,18 @@ export default function AdminModal({ onClose }: Props) {
                 </button>
               </div>
               {domains.map((d) => (
-                <div key={d.id} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 8px', background: '#fff', border: '2px solid #C0C0C0' }}>
-                  <span style={{ fontFamily: 'monospace', fontSize: 16, flex: 1 }}>{d.name}</span>
-                  <span style={{ fontFamily: 'monospace', fontSize: 15, flex: 2, color: '#666' }}>{d.description}</span>
+                <div key={d.id} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 8px', background: 'var(--theme-bg-surface)', border: '2px solid var(--theme-border-soft)' }}>
+                  <span style={{ fontFamily: 'var(--theme-font)', fontSize: 16, flex: 1 }}>{d.name}</span>
+                  <span style={{ fontFamily: 'var(--theme-font)', fontSize: 15, flex: 2, color: 'var(--theme-text-muted)' }}>{d.description}</span>
                   <button style={rowBtnStyle('#d63031', '#8a1010')} onClick={() => wrap(() => domainMutations.remove.mutateAsync(d.id))}>DEL</button>
                 </div>
               ))}
             </div>
           )}
 
-          {/* タグ管理 */}
           {tab === 'tags' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <div style={{ display: 'flex', gap: 6, alignItems: 'center', padding: 8, background: '#D8D8D8', border: '2px solid #A0A0A0' }}>
+              <div style={{ display: 'flex', gap: 6, alignItems: 'center', padding: 8, background: 'var(--theme-bg-base)', border: '2px solid var(--theme-border-soft)' }}>
                 <input style={{ ...inputStyle, flex: 1 }} placeholder="タグ名" value={newTagName} onChange={(e) => setNewTagName(e.target.value)} />
                 <button
                   style={rowBtnStyle('#2ecc71', '#1a8a4a')}
@@ -148,21 +152,20 @@ export default function AdminModal({ onClose }: Props) {
                 </button>
               </div>
               {tags.map((t) => (
-                <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 8px', background: '#fff', border: '2px solid #C0C0C0' }}>
-                  <span style={{ fontFamily: 'monospace', fontSize: 16, flex: 1 }}>{t.name}</span>
+                <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 8px', background: 'var(--theme-bg-surface)', border: '2px solid var(--theme-border-soft)' }}>
+                  <span style={{ fontFamily: 'var(--theme-font)', fontSize: 16, flex: 1 }}>{t.name}</span>
                   <button style={rowBtnStyle('#d63031', '#8a1010')} onClick={() => wrap(() => tagMutations.remove.mutateAsync(t.id))}>DEL</button>
                 </div>
               ))}
             </div>
           )}
 
-          {/* ユーザー管理 */}
           {tab === 'users' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <div style={{ display: 'flex', gap: 6, alignItems: 'center', padding: 8, background: '#D8D8D8', border: '2px solid #A0A0A0', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: 6, alignItems: 'center', padding: 8, background: 'var(--theme-bg-base)', border: '2px solid var(--theme-border-soft)', flexWrap: 'wrap' }}>
                 <input style={{ ...inputStyle, width: 140 }} placeholder="ユーザー名" value={newUsername} onChange={(e) => setNewUsername(e.target.value)} />
                 <input type="password" style={{ ...inputStyle, width: 140 }} placeholder="パスワード" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
-                <label style={{ fontFamily: 'monospace', fontSize: 15, display: 'flex', alignItems: 'center', gap: 4 }}>
+                <label style={{ fontFamily: 'var(--theme-font)', fontSize: 15, display: 'flex', alignItems: 'center', gap: 4 }}>
                   <input type="checkbox" checked={newIsAdmin} onChange={(e) => setNewIsAdmin(e.target.checked)} />
                   管理者
                 </label>
@@ -178,11 +181,11 @@ export default function AdminModal({ onClose }: Props) {
               </div>
 
               {users.map((u) => (
-                <div key={u.id} style={{ padding: '6px 8px', background: '#fff', border: '2px solid #C0C0C0', display: 'flex', flexDirection: 'column', gap: 4 }}>
+                <div key={u.id} style={{ padding: '6px 8px', background: 'var(--theme-bg-surface)', border: '2px solid var(--theme-border-soft)', display: 'flex', flexDirection: 'column', gap: 4 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <span style={{ fontFamily: 'monospace', fontSize: 16, flex: 1 }}>{u.username}</span>
-                    {u.is_admin && <span style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 10, color: '#f9ca24', background: '#333', padding: '3px 7px' }}>ADMIN</span>}
-                    {!u.is_active && <span style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 10, color: '#d63031' }}>INACTIVE</span>}
+                    <span style={{ fontFamily: 'var(--theme-font)', fontSize: 16, flex: 1 }}>{u.username}</span>
+                    {u.is_admin && <span style={{ fontFamily: 'var(--theme-font-display)', fontSize: 10, color: 'var(--theme-header-text)', background: 'var(--theme-header-bg)', padding: '3px 7px' }}>ADMIN</span>}
+                    {!u.is_active && <span style={{ fontFamily: 'var(--theme-font-display)', fontSize: 10, color: '#d63031' }}>INACTIVE</span>}
                     <button
                       style={rowBtnStyle(u.is_active ? '#d63031' : '#2ecc71', u.is_active ? '#8a1010' : '#1a8a4a')}
                       onClick={() => wrap(() => userMutations.update.mutateAsync({ id: u.id, data: { is_active: !u.is_active } }))}
