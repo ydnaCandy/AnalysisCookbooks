@@ -1,35 +1,73 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Noto+Sans+JP:wght@400;500;700&family=Playfair+Display:wght@400;600;700&display=swap');
 @import "tailwindcss";
 
 * {
   box-sizing: border-box;
 }
 
+:root {
+  /* ページ・パネル背景 */
+  --theme-bg-base: #D8D8D8;
+  --theme-bg-surface: #ECECEC;
+  --theme-bg-sunken: #C0C0C0;
+
+  /* ボーダー・シャドウ */
+  --theme-border: #333333;
+  --theme-border-soft: #A0A0A0;
+  --theme-shadow: #525252;
+
+  /* テキスト */
+  --theme-text: #333333;
+  --theme-text-muted: #525252;
+
+  /* ヘッダーバー（タイトルバー・カードヘッダー・モーダルヘッダー） */
+  --theme-header-bg: #333333;
+  --theme-header-text: #f9ca24;
+
+  /* サイドバー */
+  --theme-sidebar-bg: #1a1a1a;
+  --theme-sidebar-border: #444444;
+  --theme-sidebar-text: #cccccc;
+  --theme-sidebar-text-active: #f9ca24;
+  --theme-sidebar-text-muted: #525252;
+  --theme-sidebar-active-bg: #000000;
+  --theme-sidebar-user-bg: #111111;
+
+  /* アクセント */
+  --theme-accent: #2ecc71;
+  --theme-accent-dark: #1a8a4a;
+  --theme-accent-text: #ffffff;
+
+  /* フォント */
+  --theme-font: monospace;
+  --theme-font-display: 'Press Start 2P', monospace;
+}
+
 body {
   margin: 0;
-  font-family: monospace;
-  background-color: #D8D8D8;
-  color: #333333;
+  font-family: var(--theme-font);
+  background-color: var(--theme-bg-base);
+  color: var(--theme-text);
 }
 
 /* ピクセルシャドウ（RPG枠） */
 .rpg-border {
-  border: 3px solid #333;
-  box-shadow: 4px 4px 0 #525252;
+  border: 3px solid var(--theme-border);
+  box-shadow: 4px 4px 0 var(--theme-shadow);
 }
 
 .rpg-border-sm {
-  border: 2px solid #333;
-  box-shadow: 2px 2px 0 #525252;
+  border: 2px solid var(--theme-border);
+  box-shadow: 2px 2px 0 var(--theme-shadow);
 }
 
 /* Raised border (Win95風) */
 .raised {
   border: 2px solid;
-  border-color: #fff #707070 #707070 #fff;
+  border-color: #fff var(--theme-shadow) var(--theme-shadow) #fff;
 }
 
 /* ゲームフォント */
 .font-game {
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--theme-font-display);
 }
