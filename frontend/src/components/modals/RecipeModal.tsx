@@ -13,27 +13,27 @@ interface Props {
 
 const inputStyle: React.CSSProperties = {
   background: '#fff',
-  border: '2px solid #333',
-  boxShadow: 'inset 2px 2px 0 #A0A0A0',
+  border: '2px solid var(--theme-border)',
+  boxShadow: 'inset 2px 2px 0 var(--theme-border-soft)',
   padding: '8px 10px',
-  fontFamily: 'monospace',
+  fontFamily: 'var(--theme-font)',
   fontSize: 16,
   outline: 'none',
   width: '100%',
 }
 
 const labelStyle: React.CSSProperties = {
-  fontFamily: "'Press Start 2P', monospace",
+  fontFamily: 'var(--theme-font-display)',
   fontSize: 12,
-  color: '#525252',
+  color: 'var(--theme-text-muted)',
   marginBottom: 4,
   display: 'block',
 }
 
 const btnBase: React.CSSProperties = {
-  border: '2px solid #333',
+  border: '2px solid var(--theme-border)',
   padding: '8px 16px',
-  fontFamily: "'Press Start 2P', monospace",
+  fontFamily: 'var(--theme-font-display)',
   fontSize: 11,
   cursor: 'pointer',
   letterSpacing: 1,
@@ -118,9 +118,9 @@ export default function RecipeModal({ recipe, domains, tags, onClose }: Props) {
           maxHeight: '97vh',
           display: 'flex',
           flexDirection: 'column',
-          background: '#ECECEC',
-          border: '3px solid #333',
-          boxShadow: '6px 6px 0 #525252',
+          background: 'var(--theme-bg-surface)',
+          border: '3px solid var(--theme-border)',
+          boxShadow: '6px 6px 0 var(--theme-shadow)',
           overflow: 'hidden',
         }}
         onClick={(e) => e.stopPropagation()}
@@ -128,9 +128,9 @@ export default function RecipeModal({ recipe, domains, tags, onClose }: Props) {
         {/* ヘッダー */}
         <div
           style={{
-            background: '#333',
-            color: '#f9ca24',
-            fontFamily: "'Press Start 2P', monospace",
+            background: 'var(--theme-header-bg)',
+            color: 'var(--theme-header-text)',
+            fontFamily: 'var(--theme-font-display)',
             fontSize: 14,
             padding: '12px 16px',
             display: 'flex',
@@ -154,7 +154,7 @@ export default function RecipeModal({ recipe, domains, tags, onClose }: Props) {
               flexDirection: 'column',
               gap: 8,
               overflowY: 'auto',
-              borderRight: '2px solid #A0A0A0',
+              borderRight: '2px solid var(--theme-border-soft)',
             }}
           >
             <div>
@@ -185,12 +185,12 @@ export default function RecipeModal({ recipe, domains, tags, onClose }: Props) {
                       key={tag.id}
                       onClick={() => toggleTag(tag.id)}
                       style={{
-                        fontFamily: "'Press Start 2P', monospace",
+                        fontFamily: 'var(--theme-font-display)',
                         fontSize: 9,
                         padding: '4px 8px',
-                        border: '2px solid #333',
-                        background: selected ? '#0984e3' : '#C0C0C0',
-                        color: selected ? '#fff' : '#333',
+                        border: '2px solid var(--theme-border)',
+                        background: selected ? '#0984e3' : 'var(--theme-bg-sunken)',
+                        color: selected ? '#fff' : 'var(--theme-text)',
                         cursor: 'pointer',
                       }}
                     >
@@ -213,7 +213,7 @@ export default function RecipeModal({ recipe, domains, tags, onClose }: Props) {
             {/* ボタン */}
             <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
               <button
-                style={{ ...btnBase, background: '#2ecc71', color: '#fff', boxShadow: '3px 3px 0 #1a8a4a' }}
+                style={{ ...btnBase, background: 'var(--theme-accent)', color: 'var(--theme-accent-text)', boxShadow: '3px 3px 0 var(--theme-accent-dark)' }}
                 onClick={handleSave}
                 disabled={create.isPending || update.isPending}
               >
@@ -237,7 +237,7 @@ export default function RecipeModal({ recipe, domains, tags, onClose }: Props) {
             </div>
 
             {error && (
-              <div style={{ fontFamily: 'monospace', fontSize: 14, color: '#d63031', background: '#ffe0e0', border: '1px solid #d63031', padding: '6px 10px' }}>
+              <div style={{ fontFamily: 'var(--theme-font)', fontSize: 14, color: '#d63031', background: '#ffe0e0', border: '1px solid #d63031', padding: '6px 10px' }}>
                 {error}
               </div>
             )}
@@ -250,7 +250,7 @@ export default function RecipeModal({ recipe, domains, tags, onClose }: Props) {
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
               <div
                 style={{
-                  fontFamily: "'Press Start 2P', monospace",
+                  fontFamily: 'var(--theme-font-display)',
                   fontSize: 9,
                   color: '#f9ca24',
                   background: '#1a1a1a',

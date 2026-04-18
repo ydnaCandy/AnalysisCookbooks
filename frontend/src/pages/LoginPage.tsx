@@ -25,7 +25,7 @@ export default function LoginPage() {
     <div
       style={{
         minHeight: '100vh',
-        background: '#D8D8D8',
+        background: 'var(--theme-bg-base)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -38,9 +38,9 @@ export default function LoginPage() {
         {/* タイトル */}
         <div
           style={{
-            fontFamily: "'Press Start 2P', monospace",
+            fontFamily: 'var(--theme-font-display)',
             fontSize: 14,
-            color: '#333',
+            color: 'var(--theme-text)',
             textAlign: 'center',
             lineHeight: 2,
           }}
@@ -53,9 +53,9 @@ export default function LoginPage() {
         {/* ログインボックス */}
         <div
           style={{
-            background: '#ECECEC',
-            border: '3px solid #333',
-            boxShadow: '4px 4px 0 #525252',
+            background: 'var(--theme-bg-surface)',
+            border: '3px solid var(--theme-border)',
+            boxShadow: '4px 4px 0 var(--theme-shadow)',
             padding: 0,
             width: 300,
           }}
@@ -63,9 +63,9 @@ export default function LoginPage() {
           {/* ヘッダー */}
           <div
             style={{
-              background: '#333',
-              color: '#f9ca24',
-              fontFamily: "'Press Start 2P', monospace",
+              background: 'var(--theme-header-bg)',
+              color: 'var(--theme-header-text)',
+              fontFamily: 'var(--theme-font-display)',
               fontSize: 10,
               padding: '8px 12px',
               letterSpacing: 2,
@@ -76,7 +76,7 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 12 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <label style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#525252' }}>
+              <label style={{ fontFamily: 'var(--theme-font-display)', fontSize: 8, color: 'var(--theme-text-muted)' }}>
                 USERNAME
               </label>
               <input
@@ -86,17 +86,17 @@ export default function LoginPage() {
                 required
                 style={{
                   background: '#fff',
-                  border: '2px solid #333',
-                  boxShadow: 'inset 2px 2px 0 #A0A0A0',
+                  border: '2px solid var(--theme-border)',
+                  boxShadow: 'inset 2px 2px 0 var(--theme-border-soft)',
                   padding: '6px 8px',
-                  fontFamily: 'monospace',
+                  fontFamily: 'var(--theme-font)',
                   fontSize: 12,
                   outline: 'none',
                 }}
               />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <label style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#525252' }}>
+              <label style={{ fontFamily: 'var(--theme-font-display)', fontSize: 8, color: 'var(--theme-text-muted)' }}>
                 PASSWORD
               </label>
               <input
@@ -106,10 +106,10 @@ export default function LoginPage() {
                 required
                 style={{
                   background: '#fff',
-                  border: '2px solid #333',
-                  boxShadow: 'inset 2px 2px 0 #A0A0A0',
+                  border: '2px solid var(--theme-border)',
+                  boxShadow: 'inset 2px 2px 0 var(--theme-border-soft)',
                   padding: '6px 8px',
-                  fontFamily: 'monospace',
+                  fontFamily: 'var(--theme-font)',
                   fontSize: 12,
                   outline: 'none',
                 }}
@@ -119,7 +119,7 @@ export default function LoginPage() {
             {error && (
               <div
                 style={{
-                  fontFamily: 'monospace',
+                  fontFamily: 'var(--theme-font)',
                   fontSize: 11,
                   color: '#d63031',
                   background: '#ffe0e0',
@@ -135,12 +135,12 @@ export default function LoginPage() {
               type="submit"
               disabled={loginMutation.isPending}
               style={{
-                background: loginMutation.isPending ? '#A0A0A0' : '#2ecc71',
-                color: '#fff',
-                border: '2px solid #333',
-                boxShadow: loginMutation.isPending ? 'none' : '3px 3px 0 #1a8a4a',
+                background: loginMutation.isPending ? 'var(--theme-border-soft)' : 'var(--theme-accent)',
+                color: 'var(--theme-accent-text)',
+                border: '2px solid var(--theme-border)',
+                boxShadow: loginMutation.isPending ? 'none' : '3px 3px 0 var(--theme-accent-dark)',
                 padding: '8px 12px',
-                fontFamily: "'Press Start 2P', monospace",
+                fontFamily: 'var(--theme-font-display)',
                 fontSize: 9,
                 cursor: loginMutation.isPending ? 'not-allowed' : 'pointer',
                 letterSpacing: 1,

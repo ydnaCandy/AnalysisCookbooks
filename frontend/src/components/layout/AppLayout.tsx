@@ -13,13 +13,13 @@ export default function AppLayout({ sidebar, toolbar, children, statusBar }: App
       {/* タイトルバー */}
       <div
         style={{
-          background: '#333',
-          color: '#f9ca24',
+          background: 'var(--theme-header-bg)',
+          color: 'var(--theme-header-text)',
           padding: '8px 16px',
-          fontFamily: "'Press Start 2P', monospace",
+          fontFamily: 'var(--theme-font-display)',
           fontSize: 22,
           letterSpacing: 3,
-          borderBottom: '3px solid #525252',
+          borderBottom: '3px solid var(--theme-shadow)',
           flexShrink: 0,
         }}
       >
@@ -35,7 +35,7 @@ export default function AppLayout({ sidebar, toolbar, children, statusBar }: App
             display: 'flex',
             flexDirection: 'column',
             overflow: 'hidden',
-            background: '#D8D8D8',
+            background: 'var(--theme-bg-base)',
             backgroundImage:
               'linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px)',
             backgroundSize: '8px 8px',

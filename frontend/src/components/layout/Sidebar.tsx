@@ -1,4 +1,5 @@
 import { useAuth } from '../../hooks/useAuth'
+import { useTheme, type ThemeName } from '../../contexts/ThemeContext'
 import type { Domain } from '../../types'
 
 interface SidebarProps {
@@ -8,47 +9,54 @@ interface SidebarProps {
   onOpenAdmin: () => void
 }
 
+const THEME_BUTTONS: { name: ThemeName; label: string }[] = [
+  { name: 'retro', label: 'RPG' },
+  { name: 'modern', label: 'MOD' },
+  { name: 'italian', label: 'ITA' },
+]
+
+const DOMAIN_COLORS: Record<string, string> = {
+  製造: '#2ecc71',
+  営業: '#f9ca24',
+  経営: '#0984e3',
+}
+
 export default function Sidebar({ domains, selectedDomainId, onSelectDomain, onOpenAdmin }: SidebarProps) {
   const { user, logout } = useAuth()
+  const { theme, setTheme } = useTheme()
 
   const itemStyle = (active: boolean): React.CSSProperties => ({
     padding: '11px 14px',
-    fontFamily: "'Press Start 2P', monospace",
+    fontFamily: 'var(--theme-font-display)',
     fontSize: 14,
-    color: active ? '#f9ca24' : '#ccc',
-    background: active ? '#000' : 'transparent',
+    color: active ? 'var(--theme-sidebar-text-active)' : 'var(--theme-sidebar-text)',
+    background: active ? 'var(--theme-sidebar-active-bg)' : 'transparent',
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
     gap: 6,
     letterSpacing: 1,
-    borderBottom: '1px solid #444',
+    borderBottom: '1px solid var(--theme-sidebar-border)',
   })
-
-  const DOMAIN_COLORS: Record<string, string> = {
-    製造: '#2ecc71',
-    営業: '#f9ca24',
-    経営: '#0984e3',
-  }
 
   return (
     <div
       style={{
         width: 260,
-        background: '#1a1a1a',
-        borderRight: '3px solid #333',
+        background: 'var(--theme-sidebar-bg)',
+        borderRight: '3px solid var(--theme-border)',
         display: 'flex',
         flexDirection: 'column',
         flexShrink: 0,
       }}
     >
       {/* メニュー */}
-      <div style={{ padding: '8px 0', borderBottom: '2px solid #444' }}>
+      <div style={{ padding: '8px 0', borderBottom: '2px solid var(--theme-sidebar-border)' }}>
         <div
           style={{
-            fontFamily: "'Press Start 2P', monospace",
+            fontFamily: 'var(--theme-font-display)',
             fontSize: 12,
-            color: '#525252',
+            color: 'var(--theme-sidebar-text-muted)',
             padding: '8px 14px 10px',
             letterSpacing: 2,
           }}
@@ -56,11 +64,11 @@ export default function Sidebar({ domains, selectedDomainId, onSelectDomain, onO
           - MENU -
         </div>
         <div style={itemStyle(true)}>
-          <span style={{ color: '#f9ca24' }}>&#9658;</span> レシピ一覧
+          <span style={{ color: 'var(--theme-sidebar-text-active)' }}>&#9658;</span> レシピ一覧
         </div>
         {user?.is_admin && (
           <div style={itemStyle(false)} onClick={onOpenAdmin}>
-            <span style={{ color: '#A0A0A0' }}>&nbsp;</span> 管理者メニュー
+            <span style={{ color: 'var(--theme-sidebar-text-muted)' }}>&nbsp;</span> 管理者メニュー
           </div>
         )}
       </div>
@@ -69,9 +77,9 @@ export default function Sidebar({ domains, selectedDomainId, onSelectDomain, onO
       <div style={{ padding: '8px 0', flex: 1 }}>
         <div
           style={{
-            fontFamily: "'Press Start 2P', monospace",
+            fontFamily: 'var(--theme-font-display)',
             fontSize: 12,
-            color: '#525252',
+            color: 'var(--theme-sidebar-text-muted)',
             padding: '8px 14px 10px',
             letterSpacing: 2,
           }}
@@ -82,7 +90,7 @@ export default function Sidebar({ domains, selectedDomainId, onSelectDomain, onO
           style={itemStyle(selectedDomainId === null)}
           onClick={() => onSelectDomain(null)}
         >
-          <span style={{ color: selectedDomainId === null ? '#f9ca24' : '#A0A0A0' }}>
+          <span style={{ color: selectedDomainId === null ? 'var(--theme-sidebar-text-active)' : 'var(--theme-sidebar-text-muted)' }}>
             {selectedDomainId === null ? '►' : '\u00A0'}
           </span>
           すべて
@@ -93,27 +101,57 @@ export default function Sidebar({ domains, selectedDomainId, onSelectDomain, onO
             style={itemStyle(selectedDomainId === d.id)}
             onClick={() => onSelectDomain(d.id)}
           >
-            <span style={{ color: DOMAIN_COLORS[d.name] ?? '#A0A0A0', fontSize: 10 }}>&#9632;</span>
+            <span style={{ color: DOMAIN_COLORS[d.name] ?? 'var(--theme-sidebar-text-muted)', fontSize: 10 }}>&#9632;</span>
             {d.name}
           </div>
+        ))}
+      </div>
+
+      {/* テーマ切り替え */}
+      <div
+        style={{
+          padding: '8px 12px',
+          borderTop: '2px solid var(--theme-sidebar-border)',
+          display: 'flex',
+          gap: 6,
+          justifyContent: 'center',
+        }}
+      >
+        {THEME_BUTTONS.map(({ name, label }) => (
+          <button
+            key={name}
+            onClick={() => setTheme(name)}
+            style={{
+              fontFamily: 'var(--theme-font-display)',
+              fontSize: 9,
+              padding: '5px 8px',
+              border: '2px solid var(--theme-sidebar-border)',
+              background: theme === name ? 'var(--theme-sidebar-text-active)' : 'transparent',
+              color: theme === name ? 'var(--theme-sidebar-bg)' : 'var(--theme-sidebar-text)',
+              cursor: 'pointer',
+              letterSpacing: 1,
+            }}
+          >
+            {label}
+          </button>
         ))}
       </div>
 
       {/* ユーザー情報 */}
       <div
         style={{
-          background: '#111',
+          background: 'var(--theme-sidebar-user-bg)',
           padding: '12px 14px',
-          fontFamily: "'Press Start 2P', monospace",
+          fontFamily: 'var(--theme-font-display)',
           fontSize: 12,
-          color: '#aaa',
+          color: 'var(--theme-sidebar-text)',
           lineHeight: 2,
-          borderTop: '2px solid #444',
+          borderTop: '2px solid var(--theme-sidebar-border)',
         }}
       >
         <div>PLAYER:</div>
-        <div style={{ color: '#fff' }}>{user?.username}</div>
-        {user?.is_admin && <div style={{ color: '#f9ca24' }}>★ ADMIN</div>}
+        <div style={{ color: 'var(--theme-sidebar-text-active)' }}>{user?.username}</div>
+        {user?.is_admin && <div style={{ color: 'var(--theme-sidebar-text-active)' }}>★ ADMIN</div>}
         <div
           style={{ color: '#d63031', cursor: 'pointer', marginTop: 4 }}
           onClick={logout}

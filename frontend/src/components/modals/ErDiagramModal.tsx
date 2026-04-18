@@ -18,12 +18,12 @@ export default function ErDiagramModal({ sqlText, onClose }: Props) {
       position: { x: (i % 3) * 220 + 40, y: Math.floor(i / 3) * 160 + 40 },
       data: { label: table },
       style: {
-        background: '#ECECEC',
-        border: '3px solid #333',
-        boxShadow: '3px 3px 0 #525252',
-        fontFamily: "'Press Start 2P', monospace",
+        background: 'var(--theme-bg-surface)',
+        border: '3px solid var(--theme-border)',
+        boxShadow: '3px 3px 0 var(--theme-shadow)',
+        fontFamily: 'var(--theme-font-display)',
         fontSize: 14,
-        color: '#333',
+        color: 'var(--theme-text)',
         padding: '14px 20px',
         borderRadius: 0,
       },
@@ -66,9 +66,9 @@ export default function ErDiagramModal({ sqlText, onClose }: Props) {
           zIndex: 201,
           width: '95vw',
           height: '90vh',
-          background: '#ECECEC',
-          border: '3px solid #333',
-          boxShadow: '6px 6px 0 #525252',
+          background: 'var(--theme-bg-surface)',
+          border: '3px solid var(--theme-border)',
+          boxShadow: '6px 6px 0 var(--theme-shadow)',
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
@@ -78,9 +78,9 @@ export default function ErDiagramModal({ sqlText, onClose }: Props) {
         {/* ヘッダー */}
         <div
           style={{
-            background: '#333',
-            color: '#f9ca24',
-            fontFamily: "'Press Start 2P', monospace",
+            background: 'var(--theme-header-bg)',
+            color: 'var(--theme-header-text)',
+            fontFamily: 'var(--theme-font-display)',
             fontSize: 14,
             padding: '12px 16px',
             display: 'flex',
@@ -102,7 +102,7 @@ export default function ErDiagramModal({ sqlText, onClose }: Props) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontFamily: "'Press Start 2P', monospace",
+                fontFamily: 'var(--theme-font-display)',
                 fontSize: 14,
                 color: '#d63031',
               }}
@@ -116,9 +116,9 @@ export default function ErDiagramModal({ sqlText, onClose }: Props) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontFamily: "'Press Start 2P', monospace",
+                fontFamily: 'var(--theme-font-display)',
                 fontSize: 14,
-                color: '#A0A0A0',
+                color: 'var(--theme-border-soft)',
               }}
             >
               テーブルが検出されませんでした

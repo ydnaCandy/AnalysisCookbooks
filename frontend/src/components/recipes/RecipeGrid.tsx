@@ -14,32 +14,32 @@ interface RecipeGridProps {
 }
 
 const btnStyle: React.CSSProperties = {
-  background: '#2ecc71',
-  color: '#fff',
-  border: '2px solid #333',
-  boxShadow: '3px 3px 0 #1a8a4a',
+  background: 'var(--theme-accent)',
+  color: 'var(--theme-accent-text)',
+  border: '2px solid var(--theme-border)',
+  boxShadow: '3px 3px 0 var(--theme-accent-dark)',
   padding: '6px 12px',
-  fontFamily: "'Press Start 2P', monospace",
+  fontFamily: 'var(--theme-font-display)',
   fontSize: 12,
   cursor: 'pointer',
   letterSpacing: 1,
 }
 
 const selectStyle: React.CSSProperties = {
-  background: '#ECECEC',
-  border: '2px solid #333',
-  boxShadow: '2px 2px 0 #525252',
+  background: 'var(--theme-bg-surface)',
+  border: '2px solid var(--theme-border)',
+  boxShadow: '2px 2px 0 var(--theme-shadow)',
   padding: '6px 10px',
-  fontFamily: "'Press Start 2P', monospace",
+  fontFamily: 'var(--theme-font-display)',
   fontSize: 12,
-  color: '#333',
+  color: 'var(--theme-text)',
   cursor: 'pointer',
 }
 
 const labelStyle: React.CSSProperties = {
-  fontFamily: "'Press Start 2P', monospace",
+  fontFamily: 'var(--theme-font-display)',
   fontSize: 11,
-  color: '#525252',
+  color: 'var(--theme-text-muted)',
   letterSpacing: 1,
 }
 
@@ -59,9 +59,9 @@ export default function RecipeGrid({
       {/* ツールバー */}
       <div
         style={{
-          background: '#C0C0C0',
+          background: 'var(--theme-bg-sunken)',
           padding: '8px 12px',
-          borderBottom: '3px solid #525252',
+          borderBottom: '3px solid var(--theme-shadow)',
           display: 'flex',
           alignItems: 'center',
           gap: 10,
@@ -122,9 +122,9 @@ export default function RecipeGrid({
             style={{
               gridColumn: '1 / -1',
               textAlign: 'center',
-              fontFamily: "'Press Start 2P', monospace",
+              fontFamily: 'var(--theme-font-display)',
               fontSize: 10,
-              color: '#A0A0A0',
+              color: 'var(--theme-border-soft)',
               padding: 40,
             }}
           >
