@@ -1,12 +1,25 @@
 import { useMemo, useEffect, useRef, useState } from 'react'
-import mermaid from 'mermaid'
+import type mermaidType from 'mermaid'
 import { parseSqlForEr, erDataToMermaid } from '../../utils/sqlParser'
 
-mermaid.initialize({
-  startOnLoad: false,
-  theme: 'neutral',
-  flowchart: { curve: 'basis' },
-})
+let mermaidInstance: typeof mermaidType | null = null
+
+async function getMermaid(): Promise<typeof mermaidType> {
+  if (!mermaidInstance) {
+    const mod = await import('mermaid')
+    mermaidInstance = mod.default
+    mermaidInstance.initialize({
+      startOnLoad: false,
+      theme: 'neutral',
+      flowchart: { curve: 'basis' },
+      themeVariables: {
+        fontFamily: '"Noto Sans JP", "Helvetica Neue", Arial, sans-serif',
+        fontSize: '18px',
+      },
+    })
+  }
+  return mermaidInstance
+}
 
 interface Props {
   sqlText: string
@@ -20,21 +33,22 @@ export default function ErDiagramModal({ sqlText, onClose }: Props) {
     [erData]
   )
   const containerRef = useRef<HTMLDivElement>(null)
-  const [renderError, setRenderError] = useState(false)
+  const [renderError, setRenderError] = useState<string | null>(null)
+  const [renderKey, setRenderKey] = useState(0)
 
   useEffect(() => {
     if (!diagramText || !containerRef.current) return
-    setRenderError(false)
+    setRenderError(null)
     const id = `er-${Date.now()}`
-    mermaid
-      .render(id, diagramText)
+    getMermaid()
+      .then((m) => m.render(id, diagramText))
       .then(({ svg }) => {
         if (containerRef.current) {
           containerRef.current.innerHTML = svg
         }
       })
-      .catch(() => setRenderError(true))
-  }, [diagramText])
+      .catch((e: unknown) => setRenderError(String(e)))
+  }, [diagramText, renderKey])
 
   const errorMsg =
     !erData ? 'SQLのパースに失敗しました' :
@@ -81,7 +95,10 @@ export default function ErDiagramModal({ sqlText, onClose }: Props) {
           }}
         >
           <span>ER DIAGRAM</span>
-          <span style={{ cursor: 'pointer', color: '#d63031' }} onClick={onClose}>[ X ]</span>
+          <div style={{ display: 'flex', gap: 16 }}>
+            <span style={{ cursor: 'pointer' }} onClick={() => setRenderKey((k) => k + 1)}>[ RELOAD ]</span>
+            <span style={{ cursor: 'pointer', color: '#d63031' }} onClick={onClose}>[ X ]</span>
+          </div>
         </div>
 
         {/* コンテンツ */}
