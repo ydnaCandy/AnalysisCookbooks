@@ -59,3 +59,32 @@ export function parseSqlForEr(sql: string): ErData | null {
     return null
   }
 }
+
+function extractFkColumn(on: string): string {
+  // "orders.user_id = users.id" → "user_id"
+  const match = on.match(/^[\w]+\.([\w]+)\s*=/)
+  return match ? match[1] : on
+}
+
+function quoteMermaidNode(name: string): string {
+  // 英数字・アンダースコア以外を含む場合はクォート
+  return /^[a-zA-Z0-9_]+$/.test(name) ? name : `["${name}"]`
+}
+
+export function erDataToMermaid(data: ErData): string {
+  const lines: string[] = ['flowchart LR']
+
+  if (data.joins.length === 0) {
+    // JOINなし：テーブルをノードとして列挙
+    data.tables.forEach((t) => lines.push(`  ${quoteMermaidNode(t)}`))
+  } else {
+    data.joins.forEach((join) => {
+      const label = extractFkColumn(join.on)
+      const from = quoteMermaidNode(join.from)
+      const to = quoteMermaidNode(join.to)
+      lines.push(`  ${from} --> |${label}| ${to}`)
+    })
+  }
+
+  return lines.join('\n')
+}

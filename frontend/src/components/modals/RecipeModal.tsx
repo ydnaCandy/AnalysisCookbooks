@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, lazy, Suspense } from 'react'
 import type { Domain, Tag, Recipe } from '../../types'
 import { useRecipeMutations } from '../../hooks/useRecipes'
 import CommentThread from './CommentThread'
-import ErDiagramModal from './ErDiagramModal'
+
+const ErDiagramModal = lazy(() => import('./ErDiagramModal'))
 
 interface Props {
   recipe: Recipe | null
@@ -289,7 +290,9 @@ export default function RecipeModal({ recipe, domains, tags, onClose }: Props) {
 
       {/* ER図モーダル */}
       {showErModal && (
-        <ErDiagramModal sqlText={sqlText} onClose={() => setShowErModal(false)} />
+        <Suspense fallback={null}>
+          <ErDiagramModal sqlText={sqlText} onClose={() => setShowErModal(false)} />
+        </Suspense>
       )}
     </>
   )
