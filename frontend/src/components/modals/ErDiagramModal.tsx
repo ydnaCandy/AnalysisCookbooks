@@ -1,7 +1,12 @@
-import { useMemo } from 'react'
-import { ReactFlow, Background, Controls, type Node, type Edge } from '@xyflow/react'
-import '@xyflow/react/dist/style.css'
-import { parseSqlForEr } from '../../utils/sqlParser'
+import { useMemo, useEffect, useRef, useState } from 'react'
+import mermaid from 'mermaid'
+import { parseSqlForEr, erDataToMermaid } from '../../utils/sqlParser'
+
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'neutral',
+  flowchart: { curve: 'basis' },
+})
 
 interface Props {
   sqlText: string
@@ -10,46 +15,32 @@ interface Props {
 
 export default function ErDiagramModal({ sqlText, onClose }: Props) {
   const erData = useMemo(() => parseSqlForEr(sqlText), [sqlText])
+  const diagramText = useMemo(
+    () => (erData && erData.tables.length > 0 ? erDataToMermaid(erData) : null),
+    [erData]
+  )
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [renderError, setRenderError] = useState(false)
 
-  const nodes: Node[] = useMemo(() => {
-    if (!erData) return []
-    return erData.tables.map((table, i) => ({
-      id: table,
-      position: { x: (i % 3) * 220 + 40, y: Math.floor(i / 3) * 160 + 40 },
-      data: { label: table },
-      style: {
-        background: 'var(--theme-bg-surface)',
-        border: '3px solid var(--theme-border)',
-        boxShadow: '3px 3px 0 var(--theme-shadow)',
-        fontFamily: 'var(--theme-font-display)',
-        fontSize: 14,
-        color: 'var(--theme-text)',
-        padding: '14px 20px',
-        borderRadius: 0,
-      },
-    }))
-  }, [erData])
+  useEffect(() => {
+    if (!diagramText || !containerRef.current) return
+    setRenderError(false)
+    const id = `er-${Date.now()}`
+    mermaid
+      .render(id, diagramText)
+      .then(({ svg }) => {
+        if (containerRef.current) {
+          containerRef.current.innerHTML = svg
+        }
+      })
+      .catch(() => setRenderError(true))
+  }, [diagramText])
 
-  const edges: Edge[] = useMemo(() => {
-    if (!erData) return []
-    return erData.joins.map((join, i) => ({
-      id: `edge-${i}`,
-      source: join.from,
-      target: join.to,
-      label: join.on,
-      labelStyle: {
-        fontFamily: 'monospace',
-        fontSize: 10,
-        fill: '#333',
-      },
-      labelBgStyle: {
-        fill: '#f9ca24',
-        fillOpacity: 0.9,
-      },
-      style: { stroke: '#0984e3', strokeWidth: 2 },
-      type: 'default',
-    }))
-  }, [erData])
+  const errorMsg =
+    !erData ? 'SQLのパースに失敗しました' :
+    erData.tables.length === 0 ? 'テーブルが検出されませんでした' :
+    renderError ? '図の生成に失敗しました' :
+    null
 
   return (
     <>
@@ -93,48 +84,32 @@ export default function ErDiagramModal({ sqlText, onClose }: Props) {
           <span style={{ cursor: 'pointer', color: '#d63031' }} onClick={onClose}>[ X ]</span>
         </div>
 
-        {/* フロー */}
-        <div style={{ flex: 1 }}>
-          {!erData ? (
+        {/* コンテンツ */}
+        <div
+          style={{
+            flex: 1,
+            overflow: 'auto',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 24,
+            background: '#fff',
+          }}
+        >
+          {errorMsg ? (
             <div
               style={{
-                height: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
                 fontFamily: 'var(--theme-font-display)',
                 fontSize: 14,
-                color: '#d63031',
+                color: errorMsg === 'テーブルが検出されませんでした'
+                  ? 'var(--theme-border-soft)'
+                  : '#d63031',
               }}
             >
-              SQLのパースに失敗しました
-            </div>
-          ) : erData.tables.length === 0 ? (
-            <div
-              style={{
-                height: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontFamily: 'var(--theme-font-display)',
-                fontSize: 14,
-                color: 'var(--theme-border-soft)',
-              }}
-            >
-              テーブルが検出されませんでした
+              {errorMsg}
             </div>
           ) : (
-            <ReactFlow
-              nodes={nodes}
-              edges={edges}
-              fitView
-              nodesDraggable
-              nodesConnectable={false}
-              elementsSelectable={false}
-            >
-              <Background color="#A0A0A0" gap={8} />
-              <Controls />
-            </ReactFlow>
+            <div ref={containerRef} style={{ maxWidth: '100%' }} />
           )}
         </div>
       </div>
