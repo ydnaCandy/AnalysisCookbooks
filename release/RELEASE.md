@@ -32,13 +32,10 @@ release/
 
 ### 1. フロントエンドをビルドしてapps/frontendに配置
 
-ローカル開発環境で実行:
+リポジトリルートで実行:
 
 ```bash
-cd frontend
-npm run build
-rm -rf ../release/apps/frontend/*
-cp -r dist/* ../release/apps/frontend/
+docker build -f Dockerfile.build --output release/apps/frontend .
 ```
 
 ### 2. バックエンドをapps/backendに配置
@@ -96,13 +93,10 @@ docker compose logs -f backend
 
 ### フロントエンドのみ更新
 
-ローカルで実行:
+リポジトリルートで実行:
 
 ```bash
-cd frontend
-npm run build
-rm -rf ../release/apps/frontend/*
-cp -r dist/* ../release/apps/frontend/
+docker build -f Dockerfile.build --output release/apps/frontend .
 scp -r release/apps/frontend/* user@server-ip:/opt/analysis-cookbooks/apps/frontend/
 ```
 
