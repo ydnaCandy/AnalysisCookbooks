@@ -1,0 +1,7 @@
+.superpowers/
+
+# Python
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+backend/.venv/
