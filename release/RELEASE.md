@@ -12,6 +12,8 @@ sudo apt-get install -y docker.io docker-compose-v2
 sudo usermod -aG docker $USER
 ```
 
+インストール後、一度ログアウト・再ログインしてグループ設定を反映すること。
+
 ## フォルダ構成
 
 ```
@@ -27,6 +29,14 @@ release/
   RELEASE.md     <- この手順書
   BACKUP.md      <- バックアップ手順書
 ```
+
+## 公開ポート一覧
+
+| ポート | サービス | 説明 |
+|--------|----------|------|
+| 28000  | nginx    | Webアプリ（フロントエンド + APIプロキシ） |
+| 8000   | backend  | バックエンドAPI直接アクセス |
+| 25432  | postgres | PostgreSQL外部接続用 |
 
 ## 初回セットアップ
 
@@ -60,9 +70,17 @@ nano .env
 ```
 
 以下を必ず変更:
-- `SECRET_KEY`: 推測困難なランダム文字列（例: `openssl rand -hex 32` で生成）
-- `POSTGRES_PASSWORD`: 任意のパスワード
+- `POSTGRES_PASSWORD`: 任意のパスワードに変更（初期値: `your_password`）
+- `SECRET_KEY`: 推測困難なランダム文字列に変更
+  ```bash
+  # 生成コマンド例
+  openssl rand -hex 32
+  ```
 - `DATABASE_URL`: `POSTGRES_PASSWORD` と合わせること
+
+**初期パスワードについて:**
+`.env.example` の `POSTGRES_PASSWORD` は `your_password` というプレースホルダーになっている。
+そのままでは危険なため、必ず変更してから起動すること。
 
 ### 5. 起動
 
@@ -152,3 +170,38 @@ docker compose down -v
 ```
 
 **警告:** `-v` オプションはDBデータが消える。バックアップを取ってから実行すること。
+
+---
+
+## よくあるトラブル
+
+### `docker compose` コマンドが見つからない
+
+Docker Compose v2 がインストールされていない。以下で確認:
+
+```bash
+docker compose version
+```
+
+v1（`docker-compose`）との混同に注意。本手順書はv2（`docker compose`）を前提とする。
+
+### `permission denied` エラー（Dockerコマンド実行時）
+
+`usermod -aG docker $USER` 後にログアウト・再ログインしていない。
+再ログイン後に再実行すること。
+
+### backendコンテナが起動しない
+
+```bash
+docker compose logs backend
+```
+
+でエラー内容を確認。DB接続エラーの場合は `.env` の `DATABASE_URL` と `POSTGRES_PASSWORD` が一致しているか確認すること。
+
+### フロントエンドビルドが失敗する
+
+```bash
+docker build -f Dockerfile.build --output release/apps/frontend .
+```
+
+実行ディレクトリがリポジトリルート（`Dockerfile.build` がある場所）であることを確認すること。
