@@ -77,10 +77,18 @@ nano .env
   openssl rand -hex 32
   ```
 - `DATABASE_URL`: `POSTGRES_PASSWORD` と合わせること
+- `INITIAL_ADMIN_PASSWORD`: アプリへの初回ログインに使うパスワード（初期値: `changeme`）
 
-**初期パスワードについて:**
-`.env.example` の `POSTGRES_PASSWORD` は `your_password` というプレースホルダーになっている。
-そのままでは危険なため、必ず変更してから起動すること。
+**アプリの初期ログインアカウント:**
+初回起動時にDBにユーザーが存在しない場合、以下の管理者アカウントが自動作成される:
+
+| 項目 | デフォルト値 | 設定項目 |
+|------|-------------|----------|
+| ユーザー名 | `admin` | `INITIAL_ADMIN_USERNAME` |
+| パスワード | `changeme` | `INITIAL_ADMIN_PASSWORD` |
+
+`INITIAL_ADMIN_PASSWORD` は必ず変更してから起動すること。
+初回ログイン後もパスワードを変更することを推奨する。
 
 ### 5. 起動
 
