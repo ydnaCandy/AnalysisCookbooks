@@ -7,7 +7,7 @@ cd /app
 uv sync --no-dev
 
 # DBマイグレーション
-alembic upgrade head
+uv run alembic upgrade head
 
 # 初期データ投入（初回のみ管理者アカウントを作成）
 uv run python -c "from app.core.seed import seed_initial_admin; seed_initial_admin()"
