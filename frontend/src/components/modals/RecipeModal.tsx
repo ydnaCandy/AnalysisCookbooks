@@ -267,7 +267,7 @@ export default function RecipeModal({ recipe, domains, tags, onClose }: Props) {
               <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
                 <CodeMirror
                   value={sqlText}
-                  onChange={(val) => setSqlText(val)}
+                  onChange={setSqlText}
                   extensions={[sql()]}
                   theme="dark"
                   height="100%"
