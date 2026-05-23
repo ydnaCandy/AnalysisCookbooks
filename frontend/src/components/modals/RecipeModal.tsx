@@ -1,4 +1,6 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
+import CodeMirror from '@uiw/react-codemirror'
+import { sql } from '@codemirror/lang-sql'
 import type { Domain, Tag, Recipe } from '../../types'
 import { useRecipeMutations } from '../../hooks/useRecipes'
 import CommentThread from './CommentThread'
@@ -262,25 +264,21 @@ export default function RecipeModal({ recipe, domains, tags, onClose }: Props) {
               >
                 SQL *
               </div>
-              <textarea
-                style={{
-                  flex: 1,
-                  background: '#1e1e1e',
-                  color: '#d4d4d4',
-                  fontFamily: 'monospace',
-                  fontSize: 15,
-                  padding: 14,
-                  border: 'none',
-                  outline: 'none',
-                  resize: 'none',
-                  lineHeight: 1.7,
-                  textAlign: 'left',
-                  overflowY: 'auto',
-                }}
-                value={sqlText}
-                onChange={(e) => setSqlText(e.target.value)}
-                spellCheck={false}
-              />
+              <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+                <CodeMirror
+                  value={sqlText}
+                  onChange={(val) => setSqlText(val)}
+                  extensions={[sql()]}
+                  theme="dark"
+                  height="100%"
+                  basicSetup={{
+                    lineNumbers: true,
+                    foldGutter: false,
+                    autocompletion: false,
+                  }}
+                  style={{ position: 'absolute', inset: 0, fontSize: 15 }}
+                />
+              </div>
             </div>
             {/* コメント（レシピ編集時のみ・独立スクロール） */}
             {recipe && <CommentThread recipeId={recipe.id} />}
