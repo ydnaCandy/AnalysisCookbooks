@@ -35,13 +35,15 @@
 |------------|------------|------------|------------|------|------|
 | react | 19.2.5 | MIT | 問題なし | 採用 | UIフレームワーク |
 | react-dom | 19.2.5 | MIT | 問題なし | 採用 | React DOM レンダラー |
-| typescript | 5.x | Apache-2.0 | 問題なし | 採用 | 型安全。Apache-2.0は商用利用可 |
-| vite | 6.x | MIT | 問題なし | 採用 | ビルドツール |
+| typescript | 6.x | Apache-2.0 | 問題なし | 採用 | 型安全。Apache-2.0は商用利用可 |
+| vite | 8.x | MIT | 問題なし | 採用 | ビルドツール |
 | @tailwindcss/vite | 4.2.2 | MIT | 問題なし | 採用 | CSSフレームワーク（Viteプラグイン版） |
 | lucide-react | 0.487.0 | ISC | 問題なし | 採用 | アイコンライブラリ。ISCはMITと同等の許容ライセンス |
 | @tanstack/react-query | 5.97.0 | MIT | 問題なし | 採用 | サーバー状態管理・データフェッチ |
 | react-router | 7.14.0 | MIT | 問題なし | 採用 | ルーティング（v7ではreact-router-domを統合） |
-| @xyflow/react | 12.10.2 | MIT | 問題なし | 採用 | ER図描画。旧reactflow v11からv12に刷新 |
+| mermaid | 11.14.0 | MIT | 問題なし | 採用 | ER図描画。Mermaid記法でダイアグラム生成 |
+| @uiw/react-codemirror | 4.25.10 | MIT | 問題なし | 採用 | CodeMirror 6 の React ラッパー。SQLエディタに使用 |
+| @codemirror/lang-sql | 6.x | MIT | 問題なし | 採用 | CodeMirror 用 SQL 言語拡張 |
 | node-sql-parser | 5.4.0 | Apache-2.0 | 問題なし | 採用 | SQLパース（ER図自動生成用）。Snyk調査で脆弱性なし |
 
 ## ライセンス種別の業務利用可否まとめ

@@ -17,7 +17,7 @@
 ## デプロイ構成
 
 - docker-compose によるコンテナ構成
-- サービス: `app`（FastAPI + uvicorn）、`db`（postgres:16）
+- サービス: `nginx`（リバースプロキシ）、`app`（FastAPI + uvicorn）、`db`（postgres:16）
 - DBデータはホスト側にボリュームマウント
 
 ## 認証方式
@@ -85,11 +85,12 @@
 | 用途 | ライブラリ | バージョン |
 |------|-----------|-----------|
 | UIフレームワーク | React | 19.2.5 |
-| 言語 | TypeScript | 5.x |
-| ビルドツール | Vite | 6.x |
+| 言語 | TypeScript | 6.x |
+| ビルドツール | Vite | 8.x |
 | CSSフレームワーク | @tailwindcss/vite | 4.2.2 |
 | アイコン | lucide-react | 0.487.0 |
 | データフェッチ・状態管理 | @tanstack/react-query | 5.97.0 |
 | ルーティング | react-router | 7.14.0 |
-| ER図描画 | @xyflow/react | 12.10.2 |
+| ER図描画 | mermaid | 11.14.0 |
+| SQLエディタ | @uiw/react-codemirror + @codemirror/lang-sql | 4.25.10 / 6.x |
 | SQLパース | node-sql-parser | 5.4.0 |

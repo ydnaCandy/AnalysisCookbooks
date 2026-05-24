@@ -3,6 +3,7 @@
 ## デザイン方針
 
 - ブラウザ横幅いっぱいに表示
+- ブラウザのズーム・リサイズに追従するレイアウト（`height: 100dvh` + `overflow: auto`）
 - レトロゲーム（RPG）風のデザイン
 - ピクセルフォント（Press Start 2P）をヘッダー・ラベル・ボタンに使用
 - カードはRPGのアイテムカード風、ホバーで浮き上がるエフェクト
@@ -57,7 +58,7 @@
 
 - サイズ: 98vw × 97vh（maxWidth制限なし）
 - 左カラム（flex: 1）: タイトル / ドメイン / タグ / 説明・注意点 / ボタン（保存・削除・ER図）
-- 右カラム（flex: 2）: SQLエディタ（ダークテーマ）＋ コメント折りたたみ
+- 右カラム（flex: 2）: SQLエディタ（CodeMirror 6 / ダークテーマ / シンタックスハイライト / 行番号表示）＋ コメント折りたたみ
 - コメント: 右カラム下部（SQL下）に折りたたみ式で表示
   - 折りたたみバーに件数表示
   - 展開するとgit風の時系列スレッド（maxHeight 320px で独立スクロール）
@@ -71,7 +72,7 @@
 - テーブル名のノードと、JOINキーを示すエッジのみ表示
 - カラム詳細は表示しない
 - node-sql-parserでSQLを自動パース、補正機能なし
-- @xyflow/react でノードベースのグラフ描画
+- Mermaid.js でER図をダイアグラム描画
 
 ### 管理者画面（モーダル）
 
@@ -114,5 +115,6 @@ Press Start 2P はピクセルフォントのため、同じpxサイズでも通
 | CSSフレームワーク | Tailwind CSS v4 |
 | ピクセルフォント | Press Start 2P（Google Fonts） |
 | アイコン | lucide-react |
-| ER図描画 | @xyflow/react |
+| ER図描画 | mermaid |
+| SQLエディタ | @uiw/react-codemirror + @codemirror/lang-sql |
 | SQLパース | node-sql-parser |
