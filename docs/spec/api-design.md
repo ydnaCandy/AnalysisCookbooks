@@ -59,8 +59,13 @@
 |---------|------|------|------|
 | GET | /api/users | 管理者 | 一覧取得 |
 | POST | /api/users | 管理者 | ユーザー作成 |
-| PUT | /api/users/{id} | 管理者 | 情報更新 |
+| PUT | /api/users/{id} | 管理者 | 情報更新（is_active で有効/無効切替も可） |
 | POST | /api/users/{id}/reset-password | 管理者 | パスワードリセット（管理者が仮パスワードを設定） |
+
+#### バリデーション
+
+- `POST /api/users`: `username`・`password` が空文字または空白のみの場合は 422 エラー
+- `POST /api/users/{id}/reset-password`: `new_password` が空文字または空白のみの場合は 422 エラー
 
 ## ER図パースの仕様
 
