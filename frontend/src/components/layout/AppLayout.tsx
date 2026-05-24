@@ -9,7 +9,7 @@ interface AppLayoutProps {
 
 export default function AppLayout({ sidebar, toolbar, children, statusBar }: AppLayoutProps) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100dvh', overflow: 'auto' }}>
       {/* タイトルバー */}
       <div
         style={{
