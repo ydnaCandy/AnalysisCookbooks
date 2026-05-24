@@ -12,7 +12,7 @@ from app.schemas.user import PasswordResetRequest, UserCreate, UserRead, UserUpd
 router = APIRouter()
 
 
-@router.get("/", response_model=List[UserRead])
+@router.get("", response_model=List[UserRead])
 def list_users(
     session: Session = Depends(get_session),
     _: User = Depends(get_admin_user),
@@ -21,7 +21,7 @@ def list_users(
     return list(session.exec(select(User).order_by(User.username)).all())
 
 
-@router.post("/", response_model=UserRead, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=UserRead, status_code=status.HTTP_201_CREATED)
 def create_user(
     body: UserCreate,
     session: Session = Depends(get_session),
