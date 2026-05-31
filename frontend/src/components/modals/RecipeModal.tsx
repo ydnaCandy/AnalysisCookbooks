@@ -4,6 +4,7 @@ import { sql } from '@codemirror/lang-sql'
 import type { Domain, Tag, Recipe } from '../../types'
 import { useRecipeMutations } from '../../hooks/useRecipes'
 import CommentThread from './CommentThread'
+import { exportRecipeAsMarkdown } from '../../utils/exportMarkdown'
 
 const ErDiagramModal = lazy(() => import('./ErDiagramModal'))
 
@@ -237,6 +238,14 @@ export default function RecipeModal({ recipe, domains, tags, onClose }: Props) {
               >
                 [ ER ]
               </button>
+              {recipe && (
+                <button
+                  style={{ ...btnBase, background: '#2ecc71', color: '#fff', boxShadow: '3px 3px 0 #1a8a4a' }}
+                  onClick={() => exportRecipeAsMarkdown(recipe)}
+                >
+                  [ MD ]
+                </button>
+              )}
             </div>
 
             {error && (
