@@ -65,7 +65,8 @@ def create_recipe(
 ):
     recipe = Recipe(
         title=body.title,
-        description=body.description,
+        usage_context=body.usage_context,
+        data_notes=body.data_notes,
         sql_text=body.sql_text,
         domain_id=body.domain_id,
         created_by_id=current_user.id,
