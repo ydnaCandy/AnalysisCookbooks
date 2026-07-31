@@ -8,7 +8,8 @@ from app.schemas.user import UserRead
 
 class RecipeCreate(SQLModel):
     title: str
-    description: Optional[str] = None
+    usage_context: Optional[str] = None
+    data_notes: Optional[str] = None
     sql_text: str
     domain_id: int
     tag_ids: List[int] = []
@@ -16,7 +17,8 @@ class RecipeCreate(SQLModel):
 
 class RecipeUpdate(SQLModel):
     title: Optional[str] = None
-    description: Optional[str] = None
+    usage_context: Optional[str] = None
+    data_notes: Optional[str] = None
     sql_text: Optional[str] = None
     domain_id: Optional[int] = None
     tag_ids: Optional[List[int]] = None
@@ -25,7 +27,8 @@ class RecipeUpdate(SQLModel):
 class RecipeRead(SQLModel):
     id: int
     title: str
-    description: Optional[str]
+    usage_context: Optional[str]
+    data_notes: Optional[str]
     sql_text: str
     domain_id: int
     created_by_id: int

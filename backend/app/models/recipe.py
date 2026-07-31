@@ -25,7 +25,8 @@ class Recipe(SQLModel, table=True):
 
     id: Optional[int] = Field(default=None, primary_key=True)
     title: str = Field(max_length=200)
-    description: Optional[str] = None
+    usage_context: Optional[str] = None
+    data_notes: Optional[str] = None
     sql_text: str
     domain_id: int = Field(foreign_key="domains.id")
     created_by_id: int = Field(foreign_key="users.id")
