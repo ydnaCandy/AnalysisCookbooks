@@ -3,6 +3,7 @@ import CodeMirror from '@uiw/react-codemirror'
 import { sql } from '@codemirror/lang-sql'
 import type { Domain, Tag, Recipe } from '../../types'
 import { useRecipeMutations } from '../../hooks/useRecipes'
+import { useComments } from '../../hooks/useComments'
 import CommentThread from './CommentThread'
 import { exportRecipeAsMarkdown } from '../../utils/exportMarkdown'
 
@@ -53,7 +54,11 @@ export default function RecipeModal({ recipe, domains, tags, onClose }: Props) {
     recipe?.tags.map((t) => t.id) ?? []
   )
   const [showErModal, setShowErModal] = useState(false)
+  const [showMdModal, setShowMdModal] = useState(false)
+  const [includeComments, setIncludeComments] = useState(true)
   const [error, setError] = useState('')
+
+  const { comments } = useComments(recipe?.id ?? 0)
 
   useEffect(() => {
     if (recipe) {
@@ -241,7 +246,7 @@ export default function RecipeModal({ recipe, domains, tags, onClose }: Props) {
               {recipe && (
                 <button
                   style={{ ...btnBase, background: '#2ecc71', color: '#fff', boxShadow: '3px 3px 0 #1a8a4a' }}
-                  onClick={() => exportRecipeAsMarkdown(recipe)}
+                  onClick={() => setShowMdModal(true)}
                 >
                   [ MD ]
                 </button>
@@ -294,6 +299,64 @@ export default function RecipeModal({ recipe, domains, tags, onClose }: Props) {
           </div>
         </div>
       </div>
+
+      {/* MD出力確認モーダル */}
+      {showMdModal && recipe && (
+        <>
+          <div
+            style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 200 }}
+            onClick={() => setShowMdModal(false)}
+          />
+          <div
+            style={{
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 201,
+              background: 'var(--theme-bg-surface)',
+              border: '3px solid var(--theme-border)',
+              boxShadow: '6px 6px 0 var(--theme-shadow)',
+              padding: 24,
+              minWidth: 300,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 16,
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ fontFamily: 'var(--theme-font-display)', fontSize: 14, color: 'var(--theme-header-text)', background: 'var(--theme-header-bg)', padding: '8px 12px', margin: '-24px -24px 0' }}>
+              MD EXPORT OPTIONS
+            </div>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontFamily: 'var(--theme-font)', fontSize: 14, cursor: 'pointer', marginTop: 8 }}>
+              <input
+                type="checkbox"
+                checked={includeComments}
+                onChange={(e) => setIncludeComments(e.target.checked)}
+                style={{ width: 16, height: 16, cursor: 'pointer' }}
+              />
+              コメントを含める
+            </label>
+            <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+              <button
+                style={{ ...btnBase, background: 'var(--theme-bg-sunken)' }}
+                onClick={() => setShowMdModal(false)}
+              >
+                [ CANCEL ]
+              </button>
+              <button
+                style={{ ...btnBase, background: '#2ecc71', color: '#fff', boxShadow: '3px 3px 0 #1a8a4a' }}
+                onClick={() => {
+                  exportRecipeAsMarkdown(recipe, includeComments ? comments : undefined)
+                  setShowMdModal(false)
+                }}
+              >
+                [ EXPORT ]
+              </button>
+            </div>
+          </div>
+        </>
+      )}
 
       {/* ER図モーダル */}
       {showErModal && (
