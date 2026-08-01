@@ -22,7 +22,8 @@ export interface Tag {
 export interface Recipe {
   id: number
   title: string
-  description: string | null
+  usage_context: string | null
+  data_notes: string | null
   sql_text: string
   domain_id: number
   created_by_id: number

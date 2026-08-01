@@ -3,7 +3,8 @@ import type { Recipe } from '../types'
 
 export interface RecipeCreateInput {
   title: string
-  description?: string
+  usage_context?: string
+  data_notes?: string
   sql_text: string
   domain_id: number
   tag_ids: number[]
@@ -11,7 +12,8 @@ export interface RecipeCreateInput {
 
 export interface RecipeUpdateInput {
   title?: string
-  description?: string
+  usage_context?: string
+  data_notes?: string
   sql_text?: string
   domain_id?: number
   tag_ids?: number[]
