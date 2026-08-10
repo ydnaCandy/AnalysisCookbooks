@@ -1,0 +1,67 @@
+{
+  "name": "Analysis Cookbooks",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        // Python / FastAPI
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-python.black-formatter",
+        "ms-python.isort",
+        "charliermarsh.ruff",
+        // React / TypeScript
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        // PostgreSQL
+        "cweijan.vscode-postgresql-client2",
+        // 汎用
+        "eamodio.gitlens",
+        "github.copilot",
+        "ms-azuretools.vscode-docker",
+        // Claude Code
+        "Anthropic.claude-code"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "[python]": {
+          "editor.defaultFormatter": "ms-python.black-formatter"
+        },
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  },
+
+  "forwardPorts": [8000, 5173, 5432],
+  "portsAttributes": {
+    "8000": { "label": "FastAPI", "onAutoForward": "notify" },
+    "5173": { "label": "Vite", "onAutoForward": "openBrowser" },
+    "5432": { "label": "PostgreSQL", "onAutoForward": "silent" }
+  },
+
+  "remoteUser": "vscode",
+
+  // ボリュームマウント
+  // Claude Codeの設定・会話履歴をコンテナ再ビルド後も保持する
+  // ※ devcontainerId はコンテナごとにユニークなIDが自動生成される
+  "mounts": [
+    "source=claude-code-config-${devcontainerId},target=/home/vscode/.claude,type=volume"
+  ],
+
+  // 環境変数
+  "containerEnv": {
+    // Claude Codeのメモリ上限（公式推奨値）
+    "NODE_OPTIONS": "--max-old-space-size=4096",
+    // Claude Codeが設定を読み書きするディレクトリ（上記マウント先に合わせる）
+    "CLAUDE_CONFIG_DIR": "/home/vscode/.claude"
+  },
+
+  // コンテナ作成後に一度だけ実行されるコマンド
+  // uvキャッシュのボリュームがrootで初期化される場合があるため所有権を修正してからvenvを作成
+  "postCreateCommand": "sudo chown -R vscode:vscode /home/vscode/.cache /home/vscode/.claude && mkdir -p /workspace/backend && cd /workspace/backend && uv venv --clear"
+}
