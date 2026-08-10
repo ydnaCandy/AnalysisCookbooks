@@ -47,7 +47,8 @@ const btnBase: React.CSSProperties = {
 export default function RecipeModal({ recipe, domains, tags, onClose }: Props) {
   const { create, update, remove } = useRecipeMutations()
   const [title, setTitle] = useState(recipe?.title ?? '')
-  const [description, setDescription] = useState(recipe?.description ?? '')
+  const [usageContext, setUsageContext] = useState(recipe?.usage_context ?? '')
+  const [dataNotes, setDataNotes] = useState(recipe?.data_notes ?? '')
   const [sqlText, setSqlText] = useState(recipe?.sql_text ?? '')
   const [domainId, setDomainId] = useState<number>(recipe?.domain_id ?? (domains[0]?.id ?? 0))
   const [selectedTagIds, setSelectedTagIds] = useState<number[]>(
@@ -63,7 +64,8 @@ export default function RecipeModal({ recipe, domains, tags, onClose }: Props) {
   useEffect(() => {
     if (recipe) {
       setTitle(recipe.title)
-      setDescription(recipe.description ?? '')
+      setUsageContext(recipe.usage_context ?? '')
+      setDataNotes(recipe.data_notes ?? '')
       setSqlText(recipe.sql_text)
       setDomainId(recipe.domain_id)
       setSelectedTagIds(recipe.tags.map((t) => t.id))
@@ -84,9 +86,26 @@ export default function RecipeModal({ recipe, domains, tags, onClose }: Props) {
     }
     try {
       if (recipe) {
-        await update.mutateAsync({ id: recipe.id, data: { title, description, sql_text: sqlText, domain_id: domainId, tag_ids: selectedTagIds } })
+        await update.mutateAsync({
+          id: recipe.id,
+          data: {
+            title,
+            usage_context: usageContext,
+            data_notes: dataNotes,
+            sql_text: sqlText,
+            domain_id: domainId,
+            tag_ids: selectedTagIds,
+          },
+        })
       } else {
-        await create.mutateAsync({ title, description, sql_text: sqlText, domain_id: domainId, tag_ids: selectedTagIds })
+        await create.mutateAsync({
+          title,
+          usage_context: usageContext,
+          data_notes: dataNotes,
+          sql_text: sqlText,
+          domain_id: domainId,
+          tag_ids: selectedTagIds,
+        })
       }
       onClose()
     } catch (err) {
@@ -210,13 +229,25 @@ export default function RecipeModal({ recipe, domains, tags, onClose }: Props) {
               </div>
             </div>
 
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-              <label style={labelStyle}>DESCRIPTION / NOTES</label>
-              <textarea
-                style={{ ...inputStyle, flex: 1, resize: 'none', minHeight: 80 }}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <label style={labelStyle}>USAGE CONTEXT</label>
+                <textarea
+                  style={{ ...inputStyle, resize: 'none', minHeight: 80 }}
+                  value={usageContext}
+                  onChange={(e) => setUsageContext(e.target.value)}
+                  placeholder="業務での利用シーン（誰が・何の判断のために使うか）"
+                />
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <label style={labelStyle}>DATA NOTES</label>
+                <textarea
+                  style={{ ...inputStyle, resize: 'none', minHeight: 80 }}
+                  value={dataNotes}
+                  onChange={(e) => setDataNotes(e.target.value)}
+                  placeholder="データの使い方と注意点（粒度・カラムの定義・除外条件など）"
+                />
+              </div>
             </div>
 
             {/* ボタン */}

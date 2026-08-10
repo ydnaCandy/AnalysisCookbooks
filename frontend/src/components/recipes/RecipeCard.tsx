@@ -78,7 +78,7 @@ export default function RecipeCard({ recipe, onClick }: RecipeCardProps) {
 
       {/* カードボディ */}
       <div style={{ padding: '7px 8px', display: 'flex', flexDirection: 'column', gap: 5, flex: 1 }}>
-        {recipe.description && (
+        {recipe.usage_context && (
           <div
             style={{
               fontFamily: 'var(--theme-font)',
@@ -91,7 +91,7 @@ export default function RecipeCard({ recipe, onClick }: RecipeCardProps) {
               overflow: 'hidden',
             }}
           >
-            {recipe.description}
+            {recipe.usage_context}
           </div>
         )}
         {/* タグ */}
